@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: Bareo
+  banner:
+    location: 'classpath:banner.txt'
+  datasource:
+    platform: postgres
+    driverClassName: 'org.postgresql.Driver'
+    hikari:
+      pool-name: "${spring.application.name}-HikariPool"
+      maximum-pool-size: 5
+      minimum-idle: 2
+      idle-timeout: 120_000
+      connection-timeout: 15_000
+      leak-detection-threshold: 3_000
+      max-lifetime: 300_000
+  devtools:
+    add-properties: false
+  docker:
+    compose:
+      enabled: false
+      lifecycle-management: start_and_stop
+      readiness:
+        wait: always
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  main:
+    lazy-initialization: true
+  profiles:
+    active: dev
+  server:
+    port: 8080
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+      file-size-threshold: 2MB
+  threads:
+    virtual:
+      enabled: true
+
+bareo:
+  banner:
+    mode: ${artifactId} - ${project.version}
+
+server:
+  http2:
+    enabled: true
+  servlet:
+    context-path: '/api'
+  shutdown: graceful

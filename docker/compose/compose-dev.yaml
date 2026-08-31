@@ -1,0 +1,32 @@
+name: bareo-dev-stack
+
+networks:
+  postgres-dev-network:
+    name: 'dev-network'
+    driver: bridge
+
+volumes:
+  postgres-dev-volume:
+    name: 'dev-volume'
+    driver: local
+
+services:
+  development-db:
+    container_name: 'bareo-dev-database'
+    image: 'postgis/postgis:18-3.6-alpine'
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-dev-volume:/var/lib/postgresql
+      - ../postgis/init-db:/docker-entrypoint-initdb.d:ro
+    networks:
+      - postgres-dev-network
+    environment:
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bareo_dev
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U devuser -d bareo_dev" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5

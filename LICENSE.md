@@ -1,0 +1,8 @@
+Copyright © 2026 Bareo. All Rights Reserved.
+
+This software and associated documentation files (the "Software") are the proprietary and confidential property of the
+author.
+
+UNAUTHORIZED COPYING, MODIFYING, REPRODUCING, REPUBLISHING, UPLOADING, POSTING, TRANSMITTING, OR DISTRIBUTING OF THIS
+MATERIAL, IN WHOLE OR IN PART, VIA ANY MEDIUM, IS STRICTLY PROHIBITED WITHOUT PRIOR WRITTEN PERMISSION FROM THE
+COPYRIGHT OWNER.

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="${logFormat}" />
+    </Console>
+
+    <RollingFile fileName="${rollingFileName}" filePattern="${rollingFilePattern}"
+                 name="RollingFile">
+      <DefaultRolloverStrategy max="20" />
+      <PatternLayout>
+        <Pattern>${logFormat}</Pattern>
+      </PatternLayout>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10 MB" />
+        <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+      </Policies>
+    </RollingFile>
+
+  </Appenders>
+
+  <Loggers>
+    <Logger level="ERROR" name="org.hibernate" />
+
+    <Logger level="INFO" name="org.springframework" />
+    <Logger level="TRACE" name="${basePackage}" />
+    
+    <!-- Custom loggers -->
+    <Root level="WARN">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="RollingFile" />
+    </Root>
+
+  </Loggers>
+
+  <Properties>
+    <!-- Logs format: date -> level -> trazability -> logger -> message -->
+    <Property name="logFormat">${date} ${level} ${thread} ${logger} - ${message}%n</Property>
+    
+    <!-- Variables -->
+    <Property name="basePackage">com.corusoft.bareo</Property>
+    <Property name="logsDir">logs/dev</Property>
+    <Property name="rollingFileName">${logsDir}/logs.log</Property>
+    <Property name="rollingFilePattern">${logsDir}/old/logs-%d{yyyy-MM-dd}_%i.log</Property>
+    
+    <!-- Properties to be logged -->
+    <Property name="date">%d{ISO8601}</Property>
+    <Property name="thread">[%t]</Property>
+    <Property name="level">%-5level</Property>
+    <Property name="logger">%c{1.}.%M:%L</Property>
+    <Property name="message">%msg</Property>
+  </Properties>
+</Configuration>

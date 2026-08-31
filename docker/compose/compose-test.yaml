@@ -1,0 +1,32 @@
+name: bareo-test-stack
+
+networks:
+  postgres-test-network:
+    name: 'test-network'
+    driver: bridge
+
+volumes:
+  postgres-test-volume:
+    name: 'test-volume'
+    driver: local
+
+services:
+  testing-db:
+    container_name: 'bareo-test-database'
+    image: 'postgis/postgis:18-3.6-alpine'
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres-test-volume:/var/lib/postgresql
+      - ../postgis/init-db:/docker-entrypoint-initdb.d:ro
+    networks:
+      - postgres-test-network
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bareo_test
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U testuser -d bareo_test" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5

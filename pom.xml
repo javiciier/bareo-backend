@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.1.1</version>
+		<relativePath/>
+	</parent>
+	
+	<groupId>com.corusoft.bareo</groupId>
+	<artifactId>bareo-backend</artifactId>
+	<version>${revision}</version>
+	<name>bareo-backend</name>
+	<description>bareo-backend</description>
+	<inceptionYear>2026</inceptionYear>
+	<packaging>jar</packaging>
+	
+	<url/>
+	
+	<licenses>
+		<license/>
+	</licenses>
+	
+	<developers>
+	  <developer>
+	    <name>Javier</name>
+	    <timezone>Europe/Madrid</timezone>
+    </developer>
+	</developers>
+	
+	<properties>
+	  <revision>0.0.1-SNAPSHOT</revision>      <!-- Current project release version -->
+	  
+	  <!-- Environment configuration -->
+		<java.version>25</java.version>
+		<maven.test.skip>true</maven.test.skip>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+	 
+	  <!-- Dependencies versions -->
+	  <archunit.version>1.4.2</archunit.version>
+    <firebase-admin.version>9.10.0</firebase-admin.version>
+    <firestore.version>3.43.0</firestore.version>
+    <hibernate.spatial.version>7.4.1.Final</hibernate.spatial.version>
+	  <jacoco.version>0.8.15</jacoco.version>
+    <jts-core.version>1.20.0</jts-core.version>
+    
+    <!-- Code coverage -->
+    <sonar.coverage.jacoco.xmlReportPaths>
+      ${project.reporting.outputDirectory}/jacoco-aggregate/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
+	 
+	</properties>
+	
+	<dependencies>
+	<!-- region Spring -->
+	  <dependency>
+	    <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jackson</artifactId>
+    </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-docker-compose</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+    </dependency>
+
+    <!-- Spring testing -->
+    <dependency>
+	    <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jackson-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-testcontainers</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers-junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers-postgresql</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+  <!-- endregion Spring -->
+		
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-spatial</artifactId>
+      <version>${hibernate.spatial.version}</version>
+    </dependency>
+    
+  <!-- Google -->
+    <dependency>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
+      <version>${firebase-admin.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-firestore</artifactId>
+      <version>${firestore.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    
+    <!-- Java libraries -->
+    <dependency>
+    	<groupId>org.projectlombok</groupId>
+    	<artifactId>lombok</artifactId>
+    	<optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.locationtech.jts</groupId>
+      <artifactId>jts-core</artifactId>
+      <version>${jts-core.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit</artifactId>
+      <version>${archunit.version}</version>
+      <scope>test</scope>
+    </dependency>
+		
+	</dependencies>
+
+	<build>
+	
+	  <resources>
+	  
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+      </resource>
+      
+      <!--Resource files that contain interpolation variables -->
+      <resource>
+        <directory>src/main/resources-filtered</directory>
+        <filtering>true</filtering>
+      </resource>
+      
+    </resources>
+	
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+			</plugin>
+      
+      <!-- Show active profiles before executing maven goals -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-help-plugin</artifactId>
+        <version>${maven-help-plugin.version}</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <!-- Show active Maven profiles for project -->
+            <id>show-active-profile</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>active-profiles</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- Configuration for code coverage -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>4.0.1</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>prepare-jacoco-agent-for-unit-tests</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>prepare-jacoco-agent-for-integration-tests</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>prepare-agent-integration</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+	</build>
+	
+  <profiles>
+  
+    <!-- Development profile: dev (-Pdevelopment) -->
+    <profile>
+      <id>development</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+  
+      <properties>
+        <!-- Read configuration from application-dev.yaml -->
+        <activatedProperties>dev</activatedProperties>
+        <!-- Skip tests -->
+        <maven.test.skip>true</maven.test.skip>
+      </properties>
+  
+      <dependencies>
+      </dependencies>
+      
+    </profile>
+    
+    <!-- Testing profile: test (-Ptesting) -->
+    <profile>
+      <id>testing</id>
+      <properties>
+        <activatedProperties>testing</activatedProperties>     <!-- Read configuration from application-testing.yaml -->
+        <maven.test.skip>false</maven.test.skip>
+      </properties>
+      
+      <build>
+        <resources>
+          <resource>
+            <directory>src/test/resources</directory>
+            <filtering>false</filtering>
+          </resource>
+           
+          <!--Resource files that contain interpolation variables -->
+          <resource>
+            <directory>src/test/resources-filtered</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
+        
+        <plugins>
+          <!-- Use Surefire for unit testing -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${maven-surefire-plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.maven.surefire</groupId>
+                <artifactId>surefire-testng</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <skipTests>false</skipTests>
+              <includes>
+                <include>**/*UnitTest.java</include>
+              </includes>
+              <excludes>
+                <exclude>**/*IntegrationTest.java</exclude>
+              </excludes>
+            </configuration>
+            <executions>
+              <execution>
+                <id>unit-tests-execution</id>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+           <!-- Use Failsafe for integration testing (web, infrastructure and external api) -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>${maven-failsafe-plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.maven.surefire</groupId>
+                <artifactId>surefire-testng</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <skipTests>false</skipTests>
+              <systemPropertyVariables>
+                <compose.file.path>${project.basedir}/compose-test.yaml</compose.file.path>
+              </systemPropertyVariables>
+              <includes>
+                <include>**/*IntegrationTest.java</include>
+              </includes>
+              <excludes>
+                <exclude>**/*UnitTest.java</exclude>
+              </excludes>
+            </configuration>
+            <executions>
+              <execution>
+                <id>integration-tests-execution</id>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        
+        </plugins>
+      </build>
+      
+    </profile>
+    
+    <!-- Enable containerize application (-Pdockerizable) -->
+    <profile>
+      <id>dockerizable</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <finalName>${project.artifactId}</finalName>
+        
+        <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <classifier/>
+              <finalName>${project.build.finalName}</finalName>
+              <layout>JAR</layout>
+              <mainClass>com.corusoft.bareo.bareobackend.BareoBackendApplication</mainClass>
+<!--              <outputDirectory>${project.artifact.buildDirectory}</outputDirectory>-->
+              <excludeDockerCompose>true</excludeDockerCompose>
+                <layers>
+                  <enabled>true</enabled>
+                </layers>
+            </configuration>
+            <executions>
+              <execution>
+                <id>build-application-artifact</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>repackage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- Production profile: prod (-Pproduction) -->
+    <profile>
+      <id>production</id>
+      <properties>
+        <!-- Read configuration from application-prod.yaml -->
+        <activatedProperties>prod</activatedProperties>
+        <maven.test.skip>true</maven.test.skip>
+      </properties>
+       <build>
+         <plugins>
+          <!-- Force project to be production ready -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>${maven-enforcer-plugin.version}</version>
+            <configuration>
+              <rules>
+                <banDuplicatePomDependencyVersions/>
+                <reactorModuleConvergence/>
+                <requireActiveProfile>
+                  <message>The current Maven profile for running application in production is not enabled</message>
+                  <profiles>production</profiles>
+                </requireActiveProfile>
+                <requireReleaseDeps>
+                  <message>
+                    Some dependencies are SNAPSHOT versions or not a final release versions
+                  </message>
+                </requireReleaseDeps>
+                <requireReleaseVersion>
+                  <message>
+                    Application is not ready for production: current version is ${revision}, which is a SNAPSHOT version.
+                  </message>
+                </requireReleaseVersion>
+              </rules>
+            </configuration>
+            <executions>
+              <execution>
+                <id>enforce-software-is-ready-for-production</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+       </build>
+    </profile>
+  
+  </profiles>
+
+</project>
