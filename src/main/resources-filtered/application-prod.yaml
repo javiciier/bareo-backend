@@ -10,15 +10,14 @@ spring:
     timeout-per-shutdown-phase: 30s
   main:
     lazy-initialization: true
-  server:
-    compression:
-      enabled: true
-      min-response-size: 1024
 
 logging:
   config: 'classpath:log4j2-prod.xml'
 
 server:
+  compression:
+    enabled: true
+    min-response-size: 1024
   servlet:
     context-path: '/api'
 
