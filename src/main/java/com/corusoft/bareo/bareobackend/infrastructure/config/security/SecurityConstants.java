@@ -8,6 +8,7 @@ public class SecurityConstants {
   // region HTTP
 
   public static final String PREFIX_BEARER_TOKEN = "Bearer ";
+  public static final String X_REQUEST_ID_HEADER_NAME = "X-Request-Id";
 
   // endregion HTTP
 
