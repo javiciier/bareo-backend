@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="${logFormat}" />
+    </Console>
+
+    <RollingFile
+      fileName="${rollingFileName}"
+      filePattern="${rollingFilePattern}"
+      name="RollingFile"
+    >
+      <DefaultRolloverStrategy max="${maxLogsRetentionDays}">
+        <!-- Delete older logs to save space -->
+        <Delete basePath="$logsDir}/old" maxDepth="1">
+          <IfAccumulatedFileCount exceeds="${maxLogsRetentionDays}" />
+          <IfFileName glob="logs-*.log.gz" />
+        </Delete>
+      </DefaultRolloverStrategy>
+      <PatternLayout>
+        <Pattern>${logFormat}</Pattern>
+      </PatternLayout>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="100 MB" />
+        <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+      </Policies>
+    </RollingFile>
+
+  </Appenders>
+  
+  <Loggers>
+    <Logger level="ERROR" name="org.hibernate" />
+
+    <Logger level="WARN" name="org.springframework" />
+    <Logger level="INFO" name="${basePackage}" />
+    
+    <!-- Custom loggers -->
+    <Root level="WARN">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="RollingFile" />
+    </Root>
+
+  </Loggers>
+
+  <Properties>
+    <!-- Logs format: date -> trazability -> level -> logger -> message -->
+    <Property name="requestTrace">[%notEmpty{user: %X{userId}}%notEmpty{, request: %X{requestId}}]</Property>
+    <Property name="logFormat">${date} ${requestTrace} ${level} ${thread} ${logger} - ${message}%n</Property>
+    
+    <!-- Variables -->
+    <Property name="basePackage">com.corusoft.bareo</Property>
+    <Property name="logsDir">logs/testing</Property>
+    <Property name="rollingFileName">${logsDir}/logs.log</Property>
+    <Property name="rollingFilePattern">${logsDir}/old/logs-%d{yyyy-MM-dd}_%i.log.gz</Property>
+    <Property name="maxLogsRetentionDays">15</Property>
+    
+    <!-- Properties to be logged -->
+    <Property name="date">%d{ISO8601}%d{Z}</Property>
+    <Property name="thread">[%t]</Property>
+    <Property name="userId">%X{userId}</Property>
+    <Property name="requestId">%X{requestId}</Property>
+    <Property name="level">%-5level</Property>
+    <Property name="logger">%logger{36}</Property>
+    <Property name="message">%msg</Property>
+  </Properties>
+
+</Configuration>

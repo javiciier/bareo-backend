@@ -5,9 +5,9 @@ spring:
     location: 'classpath:banner.txt'
   datasource:
     platform: postgres
-    driverClassName: 'org.postgresql.Driver'
+    driver-class-name: 'org.postgresql.Driver'
     hikari:
-      pool-name: "${spring.application.name}-HikariPool"
+      pool-name: '${spring.application.name}-HikariPool'
       maximum-pool-size: 5
       minimum-idle: 2
       idle-timeout: 120_000
@@ -24,35 +24,36 @@ spring:
         wait: always
   jpa:
     open-in-view: false
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: 'org.hibernate.dialect.PostgreSQLDialect'
+    hibernate:
+      ddl-auto: none
     properties:
       hibernate:
         naming:
-          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          physical-strategy: 'org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl'
   lifecycle:
     timeout-per-shutdown-phase: 30s
   main:
     lazy-initialization: true
   profiles:
     active: dev
-  server:
-    port: 8080
-    multipart:
-      enabled: true
-      max-file-size: 20MB
-      max-request-size: 20MB
-      file-size-threshold: 2MB
   threads:
     virtual:
       enabled: true
 
-bareo:
-  banner:
-    mode: ${artifactId} - ${project.version}
-
 server:
   http2:
     enabled: true
+  port: 8080
+  multipart:
+    enabled: true
+    max-file-size: 20MB
+    max-request-size: 20MB
+    file-size-threshold: 2MB
   servlet:
     context-path: '/api'
   shutdown: graceful
+
+bareo:
+  banner:
+    mode: '${artifactId} - ${project.version}'

@@ -1,6 +1,6 @@
 spring:
   config:
-    import: "file:../.test.env[.properties]"
+    import: "file:.test.env[.properties]"
   datasource:
     url: 'jdbc:postgresql://localhost:5431/bareo_test'
     username: 'testuser'
@@ -10,19 +10,19 @@ spring:
       enabled: true
       readiness:
         timeout: 30s
-      file: ../docker/compose/compose-test.yaml
+      file: docker/compose/compose-test.yaml
       skip:
         in-tests: false
       stop:
         command: down
         timeout: 20s
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
 
 logging:
   config: 'classpath:log4j2-test.xml'

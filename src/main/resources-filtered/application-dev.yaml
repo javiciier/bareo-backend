@@ -1,25 +1,25 @@
 spring:
   config:
-    import: "file:.dev.env[.properties]"
+    import: "optional:file:.dev.env[.properties]"
   datasource:
     url: 'jdbc:postgresql://localhost:5432/bareo_dev'
     username: 'devuser'
-    password: 'plainPassword'
-  devtools:
-    add-properties: false
+    password: 'password'
   docker:
     compose:
       enabled: true
       lifecycle-management: start-and-stop
-      file: ./docker/compose/compose-dev.yaml
+      file: docker/compose/compose-dev.yaml
       stop:
         command: down
         timeout: 20s
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        format_sql: true
+        format-sql: true
 
 logging:
   config: 'classpath:log4j2-dev.xml'
