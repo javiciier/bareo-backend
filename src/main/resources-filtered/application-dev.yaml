@@ -8,7 +8,7 @@ spring:
   docker:
     compose:
       enabled: true
-      lifecycle-management: start-and-stop
+      lifecycle-management: start
       file: docker/compose/compose-dev.yaml
       stop:
         command: down
@@ -16,7 +16,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format-sql: true

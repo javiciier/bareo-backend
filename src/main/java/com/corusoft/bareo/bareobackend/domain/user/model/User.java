@@ -18,12 +18,11 @@ public class User {
 
   private final UserId id;
   private final UsernameVO username;
-  private final UserGender gender;
   private final EmailVO email;
+  private final UserGender gender;
   private final String city;
   private final ISOCountryCodeVO countryCode;
-  private final String biography;
   private final UserAvatar avatar;
   private final Instant createdAt;
-
+  private final Instant updatedAt;
 }

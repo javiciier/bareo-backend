@@ -7,7 +7,7 @@ import static java.util.Objects.isNull;
 
 import com.corusoft.bareo.bareobackend.domain.shared.enums.UserRole;
 import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
-import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.FirebaseAuthenticatedUserDetails;
+import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.security.FirebaseAuthenticatedUserDetails;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -47,7 +47,7 @@ public class FirebaseTokenAuthenticationRequestFilter extends OncePerRequestFilt
 
   @Override
   protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
-    return requestPathStartsWith(request, "/authentication/signup");
+    return requestPathStartsWith(request, "/users/signup");
   }
 
   @Override
