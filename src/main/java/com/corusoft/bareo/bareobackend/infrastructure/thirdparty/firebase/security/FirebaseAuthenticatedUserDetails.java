@@ -1,4 +1,4 @@
-package com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase;
+package com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.security;
 
 
 import static com.corusoft.bareo.bareobackend.infrastructure.config.security.TokenClaim.ROLE_CLAIM;
