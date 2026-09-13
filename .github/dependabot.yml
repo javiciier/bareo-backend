@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "develop"
+    pull-request-branch-name:
+      prefix: "dependabot"
+      template: "{prefix}/{package_manager}/{dependency}-{version}"
+      branch-name-case: "lowercase"
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+      include: scope
+    open-pull-requests-limit: 5
+    assignees:
+      - "javiciier"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "develop"
+    pull-request-branch-name:
+      prefix: "dependabot"
+      template: "{prefix}/{package_manager}/{dependency}-{version}"
+      branch-name-case: "lowercase"
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+      include: scope
+    open-pull-requests-limit: 5
+    assignees:
+      - "javiciier"
