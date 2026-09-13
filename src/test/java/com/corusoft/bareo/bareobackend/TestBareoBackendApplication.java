@@ -6,13 +6,15 @@
  */
 package com.corusoft.bareo.bareobackend;
 
+import com.corusoft.bareo.bareobackend.config.TestcontainersConfiguration;
+
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class BareoBackendApplication {
+public class TestBareoBackendApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(BareoBackendApplication.class, args);
+  static void main(String[] args) {
+    SpringApplication.from(BareoBackendApplication::main)
+        .with(TestcontainersConfiguration.class)
+        .run(args);
   }
 }

@@ -8,6 +8,7 @@ test-output
 
 **/node_modules
 /build
+.spotless-index
 
 .git
 .gitignore

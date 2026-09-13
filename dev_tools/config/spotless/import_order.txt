@@ -1,0 +1,30 @@
+# Native Java libraries and language
+0=java
+1=javax
+2=jakarta
+3=lombok
+# Organization libraries and current project code
+4=com.corusoft
+5=com.corusoft.bareo
+# Frameworks and third-party libraries
+6=com
+7=dev
+8=io
+9=net
+10=org
+# -----Static imports -----
+# Native Java libraries and language
+11=#java
+12=#javax
+13=#jakarta
+14=#lombok
+# Organization libraries and current project code
+15=#com.corusoft
+16=#com.corusoft.bareo
+# Frameworks and third-party libraries
+17=#com
+18=#dev
+19=#io
+20=#net
+21=#org
+22=\#
