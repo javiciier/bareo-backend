@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.domain.user.vo;
 
 import java.util.Objects;
@@ -15,7 +21,11 @@ public record UsernameVO(String value) {
     }
     if (value.length() < USERNAME_MIN_LENGTH || value.length() > USERNAME_MAX_LENGTH) {
       throw new IllegalArgumentException(
-          "Username length must be between " + USERNAME_MIN_LENGTH + " and " + USERNAME_MAX_LENGTH + " characters");
+          "Username length must be between "
+              + USERNAME_MIN_LENGTH
+              + " and "
+              + USERNAME_MAX_LENGTH
+              + " characters");
     }
   }
 

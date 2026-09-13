@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.infrastructure.persistence.mapper.user;
-
-import static java.util.Objects.isNull;
 
 import com.corusoft.bareo.bareobackend.domain.shared.vo.EmailVO;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.ISOCountryCodeVO;
@@ -10,7 +14,10 @@ import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.infrastructure.persistence.DatabaseEntityMapper;
 import com.corusoft.bareo.bareobackend.infrastructure.persistence.entity.user.UserEntity;
+
 import org.springframework.stereotype.Component;
+
+import static java.util.Objects.isNull;
 
 @Component
 public class UserDatabaseEntityMapper implements DatabaseEntityMapper<User, UserEntity> {

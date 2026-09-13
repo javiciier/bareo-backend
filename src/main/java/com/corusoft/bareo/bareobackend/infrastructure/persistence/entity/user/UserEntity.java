@@ -1,6 +1,13 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.infrastructure.persistence.entity.user;
 
-import com.corusoft.bareo.bareobackend.domain.shared.enums.UserGender;
+import java.time.Instant;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,11 +15,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import java.time.Instant;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import com.corusoft.bareo.bareobackend.domain.shared.enums.UserGender;
 
 @Getter
 @Setter
@@ -22,10 +31,13 @@ import lombok.Setter;
     schema = "users",
     name = "user_account",
     uniqueConstraints = {
-        @UniqueConstraint(name = "UQ_UserAccount_username", columnNames = {"username"}),
-        @UniqueConstraint(name = "UQ_UserAccount_email", columnNames = {"email"}),
-    }
-)
+      @UniqueConstraint(
+          name = "UQ_UserAccount_username",
+          columnNames = {"username"}),
+      @UniqueConstraint(
+          name = "UQ_UserAccount_email",
+          columnNames = {"email"}),
+    })
 public class UserEntity {
 
   @EqualsAndHashCode.Include

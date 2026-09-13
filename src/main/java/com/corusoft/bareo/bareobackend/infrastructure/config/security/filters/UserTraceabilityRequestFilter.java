@@ -1,23 +1,30 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.infrastructure.config.security.filters;
 
-import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.USER_ID_ATTRIBUTE_NAME;
-import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.X_REQUEST_ID_HEADER_NAME;
-import static java.util.Objects.isNull;
+import java.io.IOException;
 
-import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
+
 import org.apache.logging.log4j.ThreadContext;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-/**
- * Filter to allow tracing the operations done by a user during the request lifetime.
- */
+import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.USER_ID_ATTRIBUTE_NAME;
+import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.X_REQUEST_ID_HEADER_NAME;
+import static java.util.Objects.isNull;
+
+/** Filter to allow tracing the operations done by a user during the request lifetime. */
 @Component
 public class UserTraceabilityRequestFilter extends OncePerRequestFilter {
 
@@ -28,7 +35,9 @@ public class UserTraceabilityRequestFilter extends OncePerRequestFilter {
   public static final String REQUEST_ID_DEFAULT_LOG_VALUE = "0";
 
   @Override
-  protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+  protected void doFilterInternal(
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain)
       throws ServletException, IOException {
     Object requestUserId = request.getAttribute(USER_ID_ATTRIBUTE_NAME);

@@ -1,7 +1,14 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.infrastructure.config.security;
 
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import lombok.Getter;
 
 @Getter
@@ -20,8 +27,6 @@ public enum TokenClaim {
     }
 
     return enumMap.entrySet().stream()
-        .collect(Collectors.toMap(
-            e -> e.getKey().getClaimName(), Map.Entry::getValue)
-        );
+        .collect(Collectors.toMap(e -> e.getKey().getClaimName(), Map.Entry::getValue));
   }
 }

@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.domain.shared.vo;
 
 import java.util.Locale;
@@ -5,11 +11,10 @@ import java.util.Locale.IsoCountryCode;
 import java.util.Objects;
 import java.util.Set;
 
-public record ISOCountryCodeVO(
-    String value
-) {
+public record ISOCountryCodeVO(String value) {
 
-  private static final Set<String> ISO_COUNTRIES = Locale.getISOCountries(IsoCountryCode.PART1_ALPHA2);
+  private static final Set<String> ISO_COUNTRIES =
+      Locale.getISOCountries(IsoCountryCode.PART1_ALPHA2);
 
   public ISOCountryCodeVO {
     Objects.requireNonNull(value, "Country code cannot be null");
