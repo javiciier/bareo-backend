@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.domain.shared.vo;
 
 import java.util.Objects;
@@ -5,13 +11,13 @@ import java.util.regex.Pattern;
 
 public record EmailVO(String value) {
 
-  private static final Pattern EMAIL_PATTERN = Pattern.compile(
-      "^(?<user>[a-zA-Z0-9._%+-]+)"
-          + "@"
-          + "(?<domain>[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)"
-          + "\\."
-          + "(?<tld>[a-zA-Z]{2,})$"
-  );
+  private static final Pattern EMAIL_PATTERN =
+      Pattern.compile(
+          "^(?<user>[a-zA-Z0-9._%+-]+)"
+              + "@"
+              + "(?<domain>[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)"
+              + "\\."
+              + "(?<tld>[a-zA-Z]{2,})$");
 
   public EmailVO {
     Objects.requireNonNull(value, "Email must not be null");

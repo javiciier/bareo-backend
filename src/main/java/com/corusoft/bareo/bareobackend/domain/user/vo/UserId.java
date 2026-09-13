@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.domain.user.vo;
 
 import java.util.Objects;
@@ -15,7 +21,11 @@ public record UserId(String value) {
     }
     if (value.length() < USER_ID_MIN_LENGTH || value.length() > USER_ID_MAX_LENGTH) {
       throw new IllegalArgumentException(
-          "User ID length must be between " + USER_ID_MIN_LENGTH + " and " + USER_ID_MAX_LENGTH + " characters");
+          "User ID length must be between "
+              + USER_ID_MIN_LENGTH
+              + " and "
+              + USER_ID_MAX_LENGTH
+              + " characters");
     }
   }
 

@@ -1,18 +1,26 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
 package com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.security;
 
-
-import static com.corusoft.bareo.bareobackend.infrastructure.config.security.TokenClaim.ROLE_CLAIM;
-import static java.util.Objects.isNull;
-
-import com.google.firebase.auth.FirebaseToken;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
 import lombok.Getter;
+
+import com.google.firebase.auth.FirebaseToken;
+
 import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import static com.corusoft.bareo.bareobackend.infrastructure.config.security.TokenClaim.ROLE_CLAIM;
+import static java.util.Objects.isNull;
 
 @Getter
 public class FirebaseAuthenticatedUserDetails implements UserDetails {
@@ -44,9 +52,7 @@ public class FirebaseAuthenticatedUserDetails implements UserDetails {
     }
 
     String principal = (String) roleClaim;
-    return Set.of(
-        new SimpleGrantedAuthority(principal)
-    );
+    return Set.of(new SimpleGrantedAuthority(principal));
   }
 
   @Override
