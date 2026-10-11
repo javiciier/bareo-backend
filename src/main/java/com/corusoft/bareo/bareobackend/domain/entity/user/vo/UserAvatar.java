@@ -4,12 +4,14 @@
  * This software is the proprietary and confidential property of the author.
  * Unauthorized copying, distribution, or use is strictly prohibited.
  */
-package com.corusoft.bareo.bareobackend.domain.user.vo;
+package com.corusoft.bareo.bareobackend.domain.entity.user.vo;
 
 import java.net.URI;
 import java.util.Objects;
 
-public record UserAvatar(URI value) {
+import com.corusoft.bareo.bareobackend.shared.ValueObject;
+
+public record UserAvatar(URI value) implements ValueObject<URI> {
 
   public UserAvatar {
     Objects.requireNonNull(value, "Avatar URL cannot be null");
@@ -37,6 +39,6 @@ public record UserAvatar(URI value) {
 
   @Override
   public String toString() {
-    return value.toString();
+    return ValueObject.asString(this);
   }
 }

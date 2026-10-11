@@ -8,7 +8,7 @@ spring:
   docker:
     compose:
       enabled: true
-      lifecycle-management: start
+      lifecycle-management: start_and_stop
       file: docker/compose/compose-dev.yaml
       stop:
         command: down

@@ -22,8 +22,7 @@ import static java.util.Objects.isNull;
 @Component
 public class MessageTranslator {
 
-  private static final String NO_TRANSLATION_AVAILABLE_KEY =
-      MessageTranslator.class.getName() + ".no_translation_available";
+  private static final String NO_TRANSLATION_AVAILABLE_KEY = "no_translation_available";
   private static final String NO_TRANSLATION_AVAILABLE_MESSAGE = "no translation available";
 
   private final MessageSource messageSource;

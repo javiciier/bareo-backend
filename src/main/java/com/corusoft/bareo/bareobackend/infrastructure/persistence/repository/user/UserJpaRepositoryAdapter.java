@@ -8,9 +8,9 @@ package com.corusoft.bareo.bareobackend.infrastructure.persistence.repository.us
 
 import java.util.Optional;
 
-import com.corusoft.bareo.bareobackend.domain.user.model.User;
-import com.corusoft.bareo.bareobackend.domain.user.repository.UserRepository;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
+import com.corusoft.bareo.bareobackend.domain.entity.user.User;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
+import com.corusoft.bareo.bareobackend.domain.repository.UserRepository;
 import com.corusoft.bareo.bareobackend.infrastructure.persistence.entity.user.UserEntity;
 import com.corusoft.bareo.bareobackend.infrastructure.persistence.mapper.user.UserDatabaseEntityMapper;
 

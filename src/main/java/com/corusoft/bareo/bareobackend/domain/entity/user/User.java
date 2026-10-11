@@ -4,7 +4,7 @@
  * This software is the proprietary and confidential property of the author.
  * Unauthorized copying, distribution, or use is strictly prohibited.
  */
-package com.corusoft.bareo.bareobackend.domain.user.model;
+package com.corusoft.bareo.bareobackend.domain.entity.user;
 
 import java.time.Instant;
 
@@ -12,12 +12,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatar;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.domain.shared.enums.UserGender;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.EmailVO;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.ISOCountryCodeVO;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UserAvatar;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UsernameVO;
 
 @Getter
 @AllArgsConstructor

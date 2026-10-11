@@ -52,13 +52,13 @@ public class UserEntity {
   private String email;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "gender", length = 20, nullable = false)
+  @Column(name = "gender", length = 20)
   private UserGender gender;
 
-  @Column(name = "city", length = 100, nullable = false)
+  @Column(name = "city", length = 100)
   private String city;
 
-  @Column(name = "iso_country_code", length = 2, nullable = false)
+  @Column(name = "iso_country_code", length = 2)
   private String countryCode;
 
   @Column(name = "avatar_url", columnDefinition = "text")

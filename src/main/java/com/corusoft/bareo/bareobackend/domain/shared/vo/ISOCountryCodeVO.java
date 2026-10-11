@@ -7,14 +7,15 @@
 package com.corusoft.bareo.bareobackend.domain.shared.vo;
 
 import java.util.Locale;
-import java.util.Locale.IsoCountryCode;
 import java.util.Objects;
 import java.util.Set;
 
-public record ISOCountryCodeVO(String value) {
+import com.corusoft.bareo.bareobackend.shared.ValueObject;
+
+public record ISOCountryCodeVO(String value) implements ValueObject<String> {
 
   private static final Set<String> ISO_COUNTRIES =
-      Locale.getISOCountries(IsoCountryCode.PART1_ALPHA2);
+      Locale.getISOCountries(Locale.IsoCountryCode.PART1_ALPHA2);
 
   public ISOCountryCodeVO {
     Objects.requireNonNull(value, "Country code cannot be null");
@@ -35,6 +36,6 @@ public record ISOCountryCodeVO(String value) {
 
   @Override
   public String toString() {
-    return value;
+    return ValueObject.asString(this);
   }
 }

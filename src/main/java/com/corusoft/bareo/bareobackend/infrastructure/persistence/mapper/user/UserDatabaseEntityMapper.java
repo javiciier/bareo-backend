@@ -6,12 +6,12 @@
  */
 package com.corusoft.bareo.bareobackend.infrastructure.persistence.mapper.user;
 
+import com.corusoft.bareo.bareobackend.domain.entity.user.User;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatar;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.EmailVO;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.ISOCountryCodeVO;
-import com.corusoft.bareo.bareobackend.domain.user.model.User;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UserAvatar;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.infrastructure.persistence.DatabaseEntityMapper;
 import com.corusoft.bareo.bareobackend.infrastructure.persistence.entity.user.UserEntity;
 
@@ -28,9 +28,9 @@ public class UserDatabaseEntityMapper implements DatabaseEntityMapper<User, User
       return null;
     }
     UserId userId = new UserId(entity.getId());
-    UsernameVO username = new UsernameVO(entity.getUsername());
+    UsernameVO username = nullable(entity.getUsername(), UsernameVO::new);
     EmailVO emailVO = new EmailVO(entity.getEmail());
-    ISOCountryCodeVO countryCode = new ISOCountryCodeVO(entity.getCountryCode());
+    ISOCountryCodeVO countryCode = nullable(entity.getCountryCode(), ISOCountryCodeVO::new);
     UserAvatar userAvatar = UserAvatar.of(entity.getAvatarUrl());
 
     return User.builder()
@@ -55,12 +55,12 @@ public class UserDatabaseEntityMapper implements DatabaseEntityMapper<User, User
     if (!isNull(domain.getId())) {
       entity.setId(domain.getId().value());
     }
-    entity.setUsername(domain.getUsername().value());
-    entity.setEmail(domain.getEmail().value());
+    entity.setUsername(nullable(domain.getUsername(), UsernameVO::value));
+    entity.setEmail(nullable(domain.getEmail(), EmailVO::value));
     entity.setGender(domain.getGender());
     entity.setCity(domain.getCity());
-    entity.setCountryCode(domain.getCountryCode().value());
-    entity.setAvatarUrl(domain.getAvatar().value().toString());
+    entity.setCountryCode(nullable(domain.getCountryCode(), ISOCountryCodeVO::value));
+    entity.setAvatarUrl(nullable(domain.getAvatar(), avatar -> avatar.value().toString()));
     entity.setCreatedAt(domain.getCreatedAt());
     entity.setUpdatedAt(domain.getUpdatedAt());
 

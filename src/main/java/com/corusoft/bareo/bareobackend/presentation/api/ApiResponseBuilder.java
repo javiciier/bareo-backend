@@ -102,14 +102,15 @@ public class ApiResponseBuilder {
   private static <E extends Exception> ApiErrorResponseBody generateErrorResponseBody(
       HttpStatus status, String message, E exception, List<? extends ApiErrorDetails> errors) {
     boolean hasErrors = !(isNull(errors)) && (!errors.isEmpty());
-    String debugMessage =
-        (!(isNull(exception)) && !hasErrors) ? exception.getLocalizedMessage() : null;
+    boolean hasException = !(isNull(exception));
+    String debugMessage = (hasException && !hasErrors) ? exception.getLocalizedMessage() : null;
     List<? extends ApiErrorDetails> errorDetails = hasErrors ? errors : null;
 
     return ApiErrorResponseBody.builder()
         .status(status.name())
         .statusCode(status.value())
         .message(message)
+        .exception(exception.getClass().getCanonicalName())
         .debugMessage(debugMessage)
         .errors(errorDetails)
         .build();
