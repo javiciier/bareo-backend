@@ -9,7 +9,9 @@ package com.corusoft.bareo.bareobackend.domain.shared.vo;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public record EmailVO(String value) {
+import com.corusoft.bareo.bareobackend.shared.ValueObject;
+
+public record EmailVO(String value) implements ValueObject<String> {
 
   private static final Pattern EMAIL_PATTERN =
       Pattern.compile(
@@ -20,11 +22,11 @@ public record EmailVO(String value) {
               + "(?<tld>[a-zA-Z]{2,})$");
 
   public EmailVO {
-    Objects.requireNonNull(value, "Email must not be null");
+    Objects.requireNonNull(value, "Email cannot be null");
     String normalizedValue = value.trim().toLowerCase();
 
     if (normalizedValue.strip().isBlank()) {
-      throw new IllegalArgumentException("Email must not be blank");
+      throw new IllegalArgumentException("Email cannot be blank");
     }
 
     if (!EMAIL_PATTERN.matcher(normalizedValue).matches()) {
@@ -36,6 +38,6 @@ public record EmailVO(String value) {
 
   @Override
   public String toString() {
-    return value;
+    return ValueObject.asString(this);
   }
 }

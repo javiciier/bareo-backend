@@ -7,7 +7,6 @@
 package com.corusoft.bareo.bareobackend.infrastructure.config.security.filters;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -19,12 +18,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
+import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;
 import com.corusoft.bareo.bareobackend.domain.shared.enums.UserRole;
-import com.corusoft.bareo.bareobackend.domain.user.vo.UserId;
+import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.FirebaseService;
 import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.security.FirebaseAuthenticatedUserDetails;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
 import org.jspecify.annotations.NonNull;
@@ -47,10 +46,10 @@ import static java.util.Objects.isNull;
 @Component
 public class FirebaseTokenAuthenticationRequestFilter extends OncePerRequestFilter {
 
-  private final FirebaseAuth firebaseAuth;
+  private final FirebaseService firebaseService;
 
-  public FirebaseTokenAuthenticationRequestFilter(FirebaseAuth firebaseAuth) {
-    this.firebaseAuth = firebaseAuth;
+  public FirebaseTokenAuthenticationRequestFilter(FirebaseService firebaseService) {
+    this.firebaseService = firebaseService;
   }
 
   @Override
@@ -68,10 +67,10 @@ public class FirebaseTokenAuthenticationRequestFilter extends OncePerRequestFilt
     UsernamePasswordAuthenticationToken authToken;
     try {
       authorizationHeaderToken = extractTokenFromRequest(request);
-      FirebaseToken firebaseToken = firebaseAuth.verifyIdToken(authorizationHeaderToken, true);
+      FirebaseToken firebaseToken = firebaseService.verifyToken(authorizationHeaderToken);
       authToken = buildAuthenticationToken(firebaseToken, request);
-    } catch (FirebaseAuthException e) {
-      logger.error("Could not verify Firebase token: {}", authorizationHeaderToken);
+    } catch (InvalidTokenException e) {
+      logger.error("Could not verify token: {}", authorizationHeaderToken);
       throw new BadCredentialsException(e.getMessage());
     } catch (BadCredentialsException e) {
       logger.error("Unexpected error when extracting token from request: {}", e.getMessage());
@@ -119,43 +118,34 @@ public class FirebaseTokenAuthenticationRequestFilter extends OncePerRequestFilt
   }
 
   private UsernamePasswordAuthenticationToken buildAuthenticationToken(
-      FirebaseToken firebaseToken, HttpServletRequest req) throws BadCredentialsException {
-    if (isNull(firebaseToken)) {
+      FirebaseToken token, HttpServletRequest req) throws BadCredentialsException {
+    if (isNull(token)) {
       throw new BadCredentialsException("Firebase token is null");
     }
 
-    // Add user related values from firebaseToken into security context
-    req.setAttribute(USER_ID_ATTRIBUTE_NAME, new UserId(firebaseToken.getUid()));
-    FirebaseAuthenticatedUserDetails userDetails =
-        new FirebaseAuthenticatedUserDetails(firebaseToken);
+    // Add user related values from token into security context
+    UserId userId = new UserId(token.getUid());
+    req.setAttribute(USER_ID_ATTRIBUTE_NAME, userId);
+    FirebaseAuthenticatedUserDetails userDetails = new FirebaseAuthenticatedUserDetails(token);
 
-    // Set user roles
-    Set<GrantedAuthority> authorities = createAuthoritiesFromFirebaseToken(firebaseToken);
-
-    return new UsernamePasswordAuthenticationToken(userDetails, firebaseToken, authorities);
-  }
-
-  private Set<GrantedAuthority> createAuthoritiesFromFirebaseToken(FirebaseToken token) {
-    UserRole role = extractRoleFromToken(token);
-    if (isNull(role)) {
-      return Collections.emptySet();
+    // Assign role to user
+    Set<GrantedAuthority> authorities = HashSet.newHashSet(1);
+    UserRole role = getRoleForUser(userId);
+    if (role != null) {
+      authorities.add(new SimpleGrantedAuthority(role.name()));
     }
 
-    logger.debug("Registering granted authorities for user '{}'", token.getUid());
-    Set<GrantedAuthority> authorities = HashSet.newHashSet(1);
-    authorities.add(new SimpleGrantedAuthority(role.name()));
-
-    logger.debug("Granted authorities registered for user '{}'", token.getUid());
-    return authorities;
+    return new UsernamePasswordAuthenticationToken(userDetails, token, authorities);
   }
 
-  private UserRole extractRoleFromToken(FirebaseToken token) {
-    Map<String, Object> claims = token.getClaims();
-    if (isNull(claims) || claims.isEmpty()) {
-      logger.debug("User '{}' has no role assigned", token.getUid());
+  private UserRole getRoleForUser(UserId userId) {
+    Map<String, Object> claims = firebaseService.getClaimsForUser(userId);
+    if (claims.isEmpty()) {
+      logger.debug("User '{}' has no roles assigned", userId);
       return null;
     }
 
-    return (UserRole) claims.get(ROLE_CLAIM.getClaimName());
+    String claim = (String) claims.get(ROLE_CLAIM.getClaimName());
+    return UserRole.valueOf(claim);
   }
 }

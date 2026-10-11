@@ -40,6 +40,8 @@ build/
 *.pem
 *.cert
 
+firebase.json
+
 # Log file
 *.log
 logs

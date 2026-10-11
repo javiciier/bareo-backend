@@ -2,7 +2,7 @@
 CREATE TABLE users.user_account
 (
     id               VARCHAR(128) PRIMARY KEY,
-    username         VARCHAR(50)  NOT NULL,
+    username         VARCHAR(50),
     email            VARCHAR(255) NOT NULL,
     gender           VARCHAR(20),
     city             VARCHAR(100),

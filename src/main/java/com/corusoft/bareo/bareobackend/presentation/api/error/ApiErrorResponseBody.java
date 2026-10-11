@@ -21,6 +21,7 @@ public record ApiErrorResponseBody(
     int statusCode,
     String status,
     @JsonInclude(NON_NULL) String message,
+    @JsonInclude(NON_NULL) String exception,
     @JsonInclude(NON_NULL) String debugMessage,
     @JsonInclude(NON_NULL) List<? extends ApiErrorDetails> errors)
     implements ApiResponseBody {}

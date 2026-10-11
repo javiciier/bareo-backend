@@ -44,15 +44,15 @@
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 	 
 	  <!-- Dependencies versions -->
-	  <archunit.version>1.4.2</archunit.version>
-    <firebase-admin.version>9.10.0</firebase-admin.version>
-    <firestore.version>3.43.0</firestore.version>
-    <hibernate.spatial.version>7.4.1.Final</hibernate.spatial.version>
+	  <archunit.version>1.5.1</archunit.version>
+    <firebase-admin.version>9.11.0</firebase-admin.version>
+    <firestore.version>3.49.0</firestore.version>
+    <hibernate.spatial.version>7.4.12.Final</hibernate.spatial.version>
 	  <jacoco.version>0.8.15</jacoco.version>
     <jts-core.version>1.20.0</jts-core.version>
     
     <!-- Plugins versions -->
-    <spotless.plugin.version>3.10.2</spotless.plugin.version>
+    <spotless.plugin.version>3.10.3</spotless.plugin.version>
     
     <!-- Code coverage -->
     <sonar.coverage.jacoco.xmlReportPaths>
