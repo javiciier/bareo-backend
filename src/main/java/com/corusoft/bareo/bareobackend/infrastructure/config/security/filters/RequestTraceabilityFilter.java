@@ -18,7 +18,7 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.USER_ID_ATTRIBUTE_NAME;
+import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.USER_ID_REQUEST_ATTRIBUTE;
 import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.X_REQUEST_ID_HEADER_NAME;
 import static java.util.Objects.isNull;
 
@@ -26,7 +26,7 @@ import static java.util.Objects.isNull;
 @Component
 public class RequestTraceabilityFilter extends OncePerRequestFilter {
 
-  public static final String USER_ID_LOG_KEY = USER_ID_ATTRIBUTE_NAME;
+  public static final String USER_ID_LOG_KEY = USER_ID_REQUEST_ATTRIBUTE;
   public static final String USER_ID_DEFAULT_LOG_VALUE = "ANONYMOUS";
 
   public static final String REQUEST_ID_LOG_KEY = "requestId";
@@ -38,7 +38,7 @@ public class RequestTraceabilityFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain)
       throws ServletException, IOException {
-    Object requestUserId = request.getAttribute(USER_ID_ATTRIBUTE_NAME);
+    Object requestUserId = request.getAttribute(USER_ID_REQUEST_ATTRIBUTE);
     Object requestId = request.getHeader(X_REQUEST_ID_HEADER_NAME);
 
     try {

@@ -58,9 +58,8 @@ public class WebSecurityConfiguration {
   }
 
   private void configureFilters(HttpSecurity http) {
-    http.addFilterBefore(firebaseTokenFilter, UsernamePasswordAuthenticationFilter.class);
-    http.addFilterBefore(
-        requestsTraceabilityFilter, FirebaseTokenAuthenticationRequestFilter.class);
+    http.addFilterBefore(requestsTraceabilityFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(firebaseTokenFilter, RequestTraceabilityFilter.class);
   }
 
   private static void configureCsrf(HttpSecurity http) {

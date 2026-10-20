@@ -16,10 +16,11 @@ import static com.corusoft.bareo.bareobackend.shared.utils.mapper.ResponseMapper
 public class UserResponseMapper {
 
   public static UserSummaryResponse toUserSummaryResponse(User entity) {
-    return new UserSummaryResponse(
-        entity.getId().toString(),
-        nullable(entity.getUsername(), UsernameVO::toString),
-        entity.getCity(),
-        nullable(entity.getAvatar(), UserAvatar::toString));
+    return UserSummaryResponse.builder()
+        .id(entity.getId().toString())
+        .username(nullable(entity.getUsername(), UsernameVO::toString))
+        .city(entity.getCity())
+        .avatarUrl(nullable(entity.getAvatar(), UserAvatar::toString))
+        .build();
   }
 }

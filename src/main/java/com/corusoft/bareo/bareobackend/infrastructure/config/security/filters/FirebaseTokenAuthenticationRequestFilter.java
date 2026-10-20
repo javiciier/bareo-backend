@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
+import com.corusoft.bareo.bareobackend.application.service.auth.AuthenticationService;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;
 import com.corusoft.bareo.bareobackend.domain.shared.enums.UserRole;
@@ -37,7 +38,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.PREFIX_BEARER_TOKEN;
-import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.USER_ID_ATTRIBUTE_NAME;
+import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.USER_ID_REQUEST_ATTRIBUTE;
 import static com.corusoft.bareo.bareobackend.infrastructure.config.security.TokenClaim.ROLE_CLAIM;
 import static java.util.Objects.isNull;
 
@@ -47,9 +48,12 @@ import static java.util.Objects.isNull;
 public class FirebaseTokenAuthenticationRequestFilter extends OncePerRequestFilter {
 
   private final FirebaseService firebaseService;
+  private final AuthenticationService authenticationService;
 
-  public FirebaseTokenAuthenticationRequestFilter(FirebaseService firebaseService) {
+  public FirebaseTokenAuthenticationRequestFilter(
+      FirebaseService firebaseService, AuthenticationService authenticationService) {
     this.firebaseService = firebaseService;
+    this.authenticationService = authenticationService;
   }
 
   @Override
@@ -67,7 +71,7 @@ public class FirebaseTokenAuthenticationRequestFilter extends OncePerRequestFilt
     UsernamePasswordAuthenticationToken authToken;
     try {
       authorizationHeaderToken = extractTokenFromRequest(request);
-      FirebaseToken firebaseToken = firebaseService.verifyToken(authorizationHeaderToken);
+      FirebaseToken firebaseToken = authenticationService.verifyToken(authorizationHeaderToken);
       authToken = buildAuthenticationToken(firebaseToken, request);
     } catch (InvalidTokenException e) {
       logger.error("Could not verify token: {}", authorizationHeaderToken);
@@ -117,15 +121,20 @@ public class FirebaseTokenAuthenticationRequestFilter extends OncePerRequestFilt
     return token;
   }
 
+  private static UserId persistUserIdInContext(FirebaseToken token, HttpServletRequest req) {
+    // Add user related values from token into security context
+    UserId userId = new UserId(token.getUid());
+    req.setAttribute(USER_ID_REQUEST_ATTRIBUTE, userId);
+    return userId;
+  }
+
   private UsernamePasswordAuthenticationToken buildAuthenticationToken(
       FirebaseToken token, HttpServletRequest req) throws BadCredentialsException {
     if (isNull(token)) {
       throw new BadCredentialsException("Firebase token is null");
     }
 
-    // Add user related values from token into security context
-    UserId userId = new UserId(token.getUid());
-    req.setAttribute(USER_ID_ATTRIBUTE_NAME, userId);
+    UserId userId = persistUserIdInContext(token, req);
     FirebaseAuthenticatedUserDetails userDetails = new FirebaseAuthenticatedUserDetails(token);
 
     // Assign role to user

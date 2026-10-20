@@ -16,8 +16,4 @@ echo
 bash "$GIT_SCRIPTS_PATH/setup_git_conventional_commits.sh"
 echo
 
-# Build project
-bash "$BUILD_SCRIPTS_PATH/build_project.sh"
-echo
-
 echo "✅ 🧑🏻‍💻️ Development environment configured 🧑🏻‍💻 ✅️"

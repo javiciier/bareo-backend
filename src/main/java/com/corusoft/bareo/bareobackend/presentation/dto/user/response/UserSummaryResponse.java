@@ -6,4 +6,15 @@
  */
 package com.corusoft.bareo.bareobackend.presentation.dto.user.response;
 
-public record UserSummaryResponse(String id, String username, String city, String avatarUrl) {}
+import lombok.Builder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT;
+
+@Builder
+public record UserSummaryResponse(
+    String id,
+    @JsonInclude(NON_ABSENT) String username,
+    @JsonInclude(NON_ABSENT) String avatarUrl,
+    @JsonInclude(NON_ABSENT) String city) {}

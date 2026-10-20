@@ -23,6 +23,10 @@ spring:
 
 logging:
   config: 'classpath:log4j2-dev.xml'
+  level:
+    # Print PreparedStatement parameters for Hibernate queries
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
 
 bareo:
   banner:

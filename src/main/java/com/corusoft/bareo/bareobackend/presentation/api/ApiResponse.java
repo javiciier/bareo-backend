@@ -8,7 +8,11 @@ package com.corusoft.bareo.bareobackend.presentation.api;
 
 import java.time.Instant;
 
-public record ApiResponse<T>(boolean success, Instant timestamp, T data) {
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT;
+
+public record ApiResponse<T>(boolean success, Instant timestamp, @JsonInclude(NON_ABSENT) T data) {
 
   public static <T> Builder<T> builder() {
     return new Builder<>();

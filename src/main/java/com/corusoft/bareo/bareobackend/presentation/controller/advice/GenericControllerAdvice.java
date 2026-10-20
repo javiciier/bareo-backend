@@ -112,7 +112,7 @@ public class GenericControllerAdvice {
     Object[] args = {ex.getParameterName(), ex.getParameterType()};
     String errorMessage = translator.generateMessage(ex.getClass().getName(), args);
 
-    return error(HttpStatus.BAD_REQUEST, errorMessage);
+    return error(HttpStatus.BAD_REQUEST, errorMessage, ex);
   }
 
   @ResponseBody
@@ -123,7 +123,7 @@ public class GenericControllerAdvice {
     logError(ex);
     String errorMessage = translator.generateMessage(ex.getClass().getName());
 
-    return error(HttpStatus.BAD_REQUEST, errorMessage);
+    return error(HttpStatus.BAD_REQUEST, errorMessage, ex);
   }
 
   // endregion Spring exception handlers

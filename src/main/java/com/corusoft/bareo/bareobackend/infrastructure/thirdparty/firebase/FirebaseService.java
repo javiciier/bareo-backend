@@ -35,11 +35,25 @@ public class FirebaseService {
     this.firebaseAuth = firebaseAuth;
   }
 
-  public FirebaseToken verifyToken(String token) {
+  public UserRecord getUser(UserId userId) throws UserNotFoundException {
+    try {
+      return firebaseAuth.getUser(userId.value());
+    } catch (FirebaseAuthException e) {
+      logger.error("Could not get user details from Firebase for user with ID '{}'", userId, e);
+      throw new UserNotFoundException(userId);
+    }
+  }
+
+  public FirebaseToken verifyToken(String token)
+      throws IllegalArgumentException, ExpiredTokenException, InvalidTokenException {
     try {
       return firebaseAuth.verifyIdToken(token, true);
     } catch (FirebaseAuthException e) {
       AuthErrorCode authErrorCode = e.getAuthErrorCode();
+
+      if (AuthErrorCode.USER_NOT_FOUND.equals(authErrorCode)) {
+        throw new IllegalArgumentException("No user found to verify token");
+      }
 
       if (AuthErrorCode.EXPIRED_ID_TOKEN.equals(authErrorCode)) {
         throw new ExpiredTokenException();
@@ -52,12 +66,37 @@ public class FirebaseService {
     }
   }
 
-  public UserRecord getUser(UserId userId) {
+  public void revokeToken(UserId userId) throws InvalidTokenException {
     try {
-      return firebaseAuth.getUser(userId.value());
+      firebaseAuth.revokeRefreshTokens(userId.value());
     } catch (FirebaseAuthException e) {
-      logger.error("Could not get user details from Firebase for user with ID '{}'", userId, e);
+      AuthErrorCode authErrorCode = e.getAuthErrorCode();
+
+      if (AuthErrorCode.REVOKED_ID_TOKEN.equals(authErrorCode)) {
+        // Token already revoked. Do nothing
+        return;
+      }
+      if (AuthErrorCode.USER_NOT_FOUND.equals(authErrorCode)) {
+        // User does not exist. Token does not require to be revoked
+        return;
+      }
+
+      throw new InvalidTokenException();
+    }
+  }
+
+  public void removeUser(UserId userId) throws UserNotFoundException {
+    try {
+      firebaseAuth.deleteUser(userId.value());
+    } catch (IllegalArgumentException e) {
+      logger.error("Cannot delete user with null ID", e);
       throw new UserNotFoundException(userId);
+    } catch (FirebaseAuthException e) {
+      AuthErrorCode authErrorCode = e.getAuthErrorCode();
+
+      if (AuthErrorCode.USER_NOT_FOUND.equals(authErrorCode)) {
+        // User does not exist. Do nothing
+      }
     }
   }
 
@@ -70,7 +109,7 @@ public class FirebaseService {
     // Merge old claims with the new ones
     Map<String, Object> currentClaims = getUser(userId).getCustomClaims();
     Map<String, Object> mergedClaims =
-        currentClaims != null ? new HashMap<>(currentClaims) : new HashMap<>();
+        (currentClaims != null) ? new HashMap<>(currentClaims) : new HashMap<>();
     mergedClaims.putAll(claims);
 
     try {

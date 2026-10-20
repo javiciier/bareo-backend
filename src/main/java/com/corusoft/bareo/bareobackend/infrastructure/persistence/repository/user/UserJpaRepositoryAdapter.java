@@ -46,4 +46,9 @@ public class UserJpaRepositoryAdapter implements UserRepository {
 
     return jpaRepository.findById(id.value()).map(mapper::mapToDomain);
   }
+
+  @Override
+  public void delete(UserId id) throws IllegalArgumentException {
+    jpaRepository.deleteById(id.value());
+  }
 }

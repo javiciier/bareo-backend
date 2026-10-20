@@ -14,14 +14,14 @@ import com.corusoft.bareo.bareobackend.presentation.api.ApiResponseBody;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT;
 
 @Builder
 public record ApiErrorResponseBody(
     int statusCode,
     String status,
-    @JsonInclude(NON_NULL) String message,
-    @JsonInclude(NON_NULL) String exception,
-    @JsonInclude(NON_NULL) String debugMessage,
-    @JsonInclude(NON_NULL) List<? extends ApiErrorDetails> errors)
+    @JsonInclude(NON_ABSENT) String message,
+    @JsonInclude(NON_ABSENT) String exception,
+    @JsonInclude(NON_ABSENT) String debugMessage,
+    @JsonInclude(NON_ABSENT) List<? extends ApiErrorDetails> errors)
     implements ApiResponseBody {}

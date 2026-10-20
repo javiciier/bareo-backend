@@ -16,4 +16,6 @@ public interface UserRepository {
   User save(User user);
 
   Optional<User> findById(UserId id);
+
+  void delete(UserId id) throws IllegalArgumentException;
 }

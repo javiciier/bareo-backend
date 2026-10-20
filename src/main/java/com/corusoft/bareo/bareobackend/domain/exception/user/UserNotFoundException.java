@@ -11,10 +11,7 @@ import com.corusoft.bareo.bareobackend.domain.exception.DomainException;
 
 public class UserNotFoundException extends DomainException {
 
-  private final UserId userId;
-
   public UserNotFoundException(UserId userId) {
     super(UserNotFoundException.class, userId);
-    this.userId = userId;
   }
 }
