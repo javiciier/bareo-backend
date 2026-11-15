@@ -16,24 +16,22 @@ public record UserAvatar(URI value) implements ValueObject<URI> {
   public UserAvatar {
     Objects.requireNonNull(value, "Avatar URL cannot be null");
 
-    if (!value.isAbsolute()) {
-      throw new IllegalArgumentException("Avatar URL must be absolute");
-    }
-    String scheme = value.getScheme();
-    if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
-      throw new IllegalArgumentException("Avatar URL must be HTTP or HTTPS");
+    if (value.toString().isBlank()) {
+      throw new IllegalArgumentException("Avatar URL cannot be blank");
     }
   }
 
-  public static UserAvatar of(String rawUrl) {
-    if (rawUrl == null || rawUrl.isBlank()) {
+  public static UserAvatar of(String value) {
+    Objects.requireNonNull(value, "Avatar URL cannot be null");
+
+    if (value.isBlank()) {
       throw new IllegalArgumentException("Avatar URL cannot be blank");
     }
 
     try {
-      return new UserAvatar(URI.create(rawUrl.trim()));
+      return new UserAvatar(URI.create(value.trim()));
     } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("Avatar URL is invalid " + rawUrl);
+      throw new IllegalArgumentException("Avatar URL is invalid: " + value);
     }
   }
 

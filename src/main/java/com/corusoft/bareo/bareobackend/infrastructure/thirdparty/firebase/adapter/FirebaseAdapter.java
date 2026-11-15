@@ -6,7 +6,6 @@
  */
 package com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.adapter;
 
-import java.net.URI;
 import java.time.Instant;
 
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
@@ -27,7 +26,7 @@ public class FirebaseAdapter {
 
     UserId id = new UserId(userRecord.getUid());
     EmailVO email = new EmailVO(userRecord.getEmail());
-    UserAvatar avatar = new UserAvatar(URI.create(userRecord.getPhotoUrl()));
+    UserAvatar avatar = UserAvatar.of(userRecord.getPhotoUrl());
     Instant creationDate =
         Instant.ofEpochMilli(userRecord.getUserMetadata().getCreationTimestamp());
 

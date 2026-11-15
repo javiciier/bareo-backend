@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.1.1</version>
+		<version>4.1.2</version>
 		<relativePath/>
 	</parent>
 	
@@ -50,7 +50,7 @@
     <hibernate.spatial.version>7.4.12.Final</hibernate.spatial.version>
 	  <jacoco.version>0.8.15</jacoco.version>
     <jts-core.version>1.20.0</jts-core.version>
-    
+
     <!-- Plugins versions -->
     <spotless.plugin.version>3.10.3</spotless.plugin.version>
     
@@ -225,7 +225,7 @@
         <directory>src/main/resources</directory>
         <filtering>false</filtering>
       </resource>
-      
+
       <!--Resource files that contain interpolation variables -->
       <resource>
         <directory>src/main/resources-filtered</directory>
@@ -349,8 +349,8 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
+
 	</build>
 	
   <profiles>
@@ -381,6 +381,29 @@
         <activatedProperties>testing</activatedProperties>     <!-- Read configuration from application-testing.yaml -->
         <maven.test.skip>false</maven.test.skip>
       </properties>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.junit.platform</groupId>
+          <artifactId>junit-platform-launcher</artifactId>
+          <version>${junit-jupiter.version}</version>
+          <scope>test</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>${junit-jupiter.version}</version>
+          <scope>test</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+          <version>${junit-jupiter.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
       
       <build>
         <resources>
@@ -402,14 +425,8 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>${maven-surefire-plugin.version}</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.maven.surefire</groupId>
-                <artifactId>surefire-testng</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-              </dependency>
-            </dependencies>
             <configuration>
+              <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
               <skipTests>false</skipTests>
               <includes>
                 <include>**/*UnitTest.java</include>
@@ -433,14 +450,8 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${maven-failsafe-plugin.version}</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.maven.surefire</groupId>
-                <artifactId>surefire-testng</artifactId>
-                <version>${maven-failsafe-plugin.version}</version>
-              </dependency>
-            </dependencies>
             <configuration>
+              <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
               <skipTests>false</skipTests>
               <systemPropertyVariables>
                 <compose.file.path>${project.basedir}/compose-test.yaml</compose.file.path>
@@ -522,13 +533,24 @@
             <artifactId>maven-enforcer-plugin</artifactId>
             <version>${maven-enforcer-plugin.version}</version>
             <configuration>
-              <rules>
+              <rules combine.children="append">
                 <banDuplicatePomDependencyVersions/>
                 <reactorModuleConvergence/>
                 <requireActiveProfile>
                   <message>The current Maven profile for running application in production is not enabled</message>
                   <profiles>production</profiles>
                 </requireActiveProfile>
+                <requireJavaVersion>
+                  <version>[25,)</version>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <version>[3.9,4.0)</version>
+                </requireMavenVersion>
+                <requirePluginVersions>
+                  <message>
+                    There are some plugin dependencies without an explicit declared version
+                  </message>
+                </requirePluginVersions>
                 <requireReleaseDeps>
                   <message>
                     Some dependencies are SNAPSHOT versions or not a final release versions

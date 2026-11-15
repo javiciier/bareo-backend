@@ -12,11 +12,11 @@ import jakarta.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.corusoft.bareo.bareobackend.application.usecase.authentication.GoogleAuthenticationRevokeUseCase;
-import com.corusoft.bareo.bareobackend.application.usecase.authentication.GoogleAuthenticationUseCase;
-import com.corusoft.bareo.bareobackend.application.usecase.authentication.command.GoogleAuthenticationRevocationUseCaseCommand;
-import com.corusoft.bareo.bareobackend.application.usecase.authentication.command.GoogleAuthenticationUseCaseCommand;
-import com.corusoft.bareo.bareobackend.application.usecase.authentication.result.GoogleAuthenticationUseCaseResult;
+import com.corusoft.bareo.bareobackend.application.usecase.auth.GoogleAuthenticationRevokeUseCase;
+import com.corusoft.bareo.bareobackend.application.usecase.auth.GoogleAuthenticationUseCase;
+import com.corusoft.bareo.bareobackend.application.usecase.auth.command.GoogleAuthenticationRevocationUseCaseCommand;
+import com.corusoft.bareo.bareobackend.application.usecase.auth.command.GoogleAuthenticationUseCaseCommand;
+import com.corusoft.bareo.bareobackend.application.usecase.auth.result.GoogleAuthenticationUseCaseResult;
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;

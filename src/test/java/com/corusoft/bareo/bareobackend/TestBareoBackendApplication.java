@@ -6,7 +6,7 @@
  */
 package com.corusoft.bareo.bareobackend;
 
-import com.corusoft.bareo.bareobackend.config.TestcontainersConfiguration;
+import com.corusoft.bareo.bareobackend.testing.config.TestcontainersConfiguration;
 
 import org.springframework.boot.SpringApplication;
 

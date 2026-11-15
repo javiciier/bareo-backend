@@ -4,6 +4,6 @@
  * This software is the proprietary and confidential property of the author.
  * Unauthorized copying, distribution, or use is strictly prohibited.
  */
-package com.corusoft.bareo.bareobackend.application.usecase.authentication.command;
+package com.corusoft.bareo.bareobackend.testing.unit.utils;
 
-public record GoogleAuthenticationUseCaseCommand(String token) {}
+public class TestDataFactory {}
