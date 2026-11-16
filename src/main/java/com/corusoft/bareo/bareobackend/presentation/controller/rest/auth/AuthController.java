@@ -73,8 +73,9 @@ public class AuthController {
     ApiResponse<AuthenticatedUserResponse> responseBody =
         ApiResponseBuilder.success(authenticatedUserResponse);
     URI resourceLocation =
-        ServletUriComponentsBuilder.fromCurrentRequest()
-            .pathSegment("api", "v1", "users", "{userId}")
+        ServletUriComponentsBuilder.fromCurrentContextPath()
+            .path("/v1")
+            .pathSegment("users", "{userId}")
             .build(authenticatedUser.getId().toString());
 
     return ResponseEntity.created(resourceLocation)
@@ -82,7 +83,7 @@ public class AuthController {
         .body(responseBody);
   }
 
-  @PostMapping(path = "/google/logout")
+  @PostMapping(path = "/google/logout", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ApiResponse<Void>> removeAuthenticationWithGoogle(
       @RequestAttribute(USER_ID_REQUEST_ATTRIBUTE) UserId userId) throws InvalidTokenException {
     // Remove authentication from provider

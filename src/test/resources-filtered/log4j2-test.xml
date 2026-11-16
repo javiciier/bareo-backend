@@ -32,7 +32,7 @@
     <Logger level="ERROR" name="org.hibernate" />
 
     <Logger level="WARN" name="org.springframework" />
-    <Logger level="INFO" name="${basePackage}" />
+    <Logger level="WARN" name="${basePackage}" />
     
     <!-- Custom loggers -->
     <Root level="WARN">
@@ -52,7 +52,7 @@
     <Property name="logsDir">logs/testing</Property>
     <Property name="rollingFileName">${logsDir}/logs.log</Property>
     <Property name="rollingFilePattern">${logsDir}/old/logs-%d{yyyy-MM-dd}_%i.log.gz</Property>
-    <Property name="maxLogsRetentionDays">15</Property>
+    <Property name="maxLogsRetentionDays">30</Property>
     
     <!-- Properties to be logged -->
     <Property name="date">%d{ISO8601}%d{Z}</Property>

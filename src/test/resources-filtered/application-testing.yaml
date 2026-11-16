@@ -27,6 +27,6 @@ spring:
 logging:
   config: 'classpath:log4j2-test.xml'
 
-myate:
+bareo:
   banner:
-    mode: "[TESTING mode]"
+    mode: '[TESTING mode]'
