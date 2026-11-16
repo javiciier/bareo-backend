@@ -6,13 +6,13 @@
  */
 package com.corusoft.bareo.bareobackend;
 
-import com.corusoft.bareo.bareobackend.testing.config.TestcontainersConfiguration;
+import com.corusoft.bareo.bareobackend.testing.config.TestContainersConfiguration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-@Import(TestcontainersConfiguration.class)
+@Import(TestContainersConfiguration.class)
 @SpringBootTest
 class BareoBackendApplicationTests {
 

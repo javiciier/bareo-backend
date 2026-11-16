@@ -4,8 +4,8 @@
  * This software is the proprietary and confidential property of the author.
  * Unauthorized copying, distribution, or use is strictly prohibited.
  */
-package com.corusoft.bareo.bareobackend.application.usecase.auth.result;
+package com.corusoft.bareo.bareobackend.application.usecase.authentication.result;
 
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 
-public record GoogleAuthenticationUseCaseResult(User authenticatedUser) {}
+public record GoogleLoginUseCaseResult(User authenticatedUser) {}

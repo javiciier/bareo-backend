@@ -6,7 +6,7 @@
  */
 package com.corusoft.bareo.bareobackend;
 
-import com.corusoft.bareo.bareobackend.testing.config.TestcontainersConfiguration;
+import com.corusoft.bareo.bareobackend.testing.config.TestContainersConfiguration;
 
 import org.springframework.boot.SpringApplication;
 
@@ -14,7 +14,7 @@ public class TestBareoBackendApplication {
 
   static void main(String[] args) {
     SpringApplication.from(BareoBackendApplication::main)
-        .with(TestcontainersConfiguration.class)
+        .with(TestContainersConfiguration.class)
         .run(args);
   }
 }

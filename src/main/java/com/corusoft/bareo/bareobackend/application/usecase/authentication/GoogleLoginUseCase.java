@@ -4,16 +4,16 @@
  * This software is the proprietary and confidential property of the author.
  * Unauthorized copying, distribution, or use is strictly prohibited.
  */
-package com.corusoft.bareo.bareobackend.application.usecase.auth;
+package com.corusoft.bareo.bareobackend.application.usecase.authentication;
 
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.corusoft.bareo.bareobackend.application.service.auth.AuthenticationService;
+import com.corusoft.bareo.bareobackend.application.service.authentication.AuthenticationService;
 import com.corusoft.bareo.bareobackend.application.service.user.UserService;
-import com.corusoft.bareo.bareobackend.application.usecase.auth.command.GoogleAuthenticationUseCaseCommand;
-import com.corusoft.bareo.bareobackend.application.usecase.auth.result.GoogleAuthenticationUseCaseResult;
+import com.corusoft.bareo.bareobackend.application.usecase.authentication.command.GoogleLoginUseCaseCommand;
+import com.corusoft.bareo.bareobackend.application.usecase.authentication.result.GoogleLoginUseCaseResult;
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.exception.auth.TokenCustomizationException;
@@ -27,7 +27,7 @@ import static com.corusoft.bareo.bareobackend.infrastructure.config.security.Tok
 
 @Service
 @Slf4j
-public class GoogleAuthenticationUseCase {
+public class GoogleLoginUseCase {
 
   private static final Map<String, Object> DEFAULT_NEW_USER_CLAIMS =
       Map.of(ROLE_CLAIM.getClaimName(), ROLE_BASIC.name());
@@ -36,7 +36,7 @@ public class GoogleAuthenticationUseCase {
   private final UserService userService;
   private final FirebaseService firebaseService;
 
-  public GoogleAuthenticationUseCase(
+  public GoogleLoginUseCase(
       AuthenticationService authenticationService,
       UserService userService,
       FirebaseService firebaseService) {
@@ -45,7 +45,7 @@ public class GoogleAuthenticationUseCase {
     this.firebaseService = firebaseService;
   }
 
-  public GoogleAuthenticationUseCaseResult execute(GoogleAuthenticationUseCaseCommand command) {
+  public GoogleLoginUseCaseResult execute(GoogleLoginUseCaseCommand command) {
     logger.trace("Executing {}", getClass().getSimpleName());
 
     User authenticatedUser = authenticateToken(command);
@@ -59,14 +59,13 @@ public class GoogleAuthenticationUseCase {
       throw e;
     }
 
-    GoogleAuthenticationUseCaseResult result =
-        new GoogleAuthenticationUseCaseResult(authenticatedUser);
+    GoogleLoginUseCaseResult result = new GoogleLoginUseCaseResult(authenticatedUser);
     logger.trace("Executed {}", getClass().getSimpleName());
 
     return result;
   }
 
-  private User authenticateToken(GoogleAuthenticationUseCaseCommand command) {
+  private User authenticateToken(GoogleLoginUseCaseCommand command) {
     try {
       return authenticationService.authenticateUserWithToken(command.token());
     } catch (UserNotFoundException | TokenCustomizationException e) {

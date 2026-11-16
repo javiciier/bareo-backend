@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.corusoft.bareo.bareobackend.application.service.auth.AuthenticationService;
+import com.corusoft.bareo.bareobackend.application.service.authentication.AuthenticationService;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;
 import com.corusoft.bareo.bareobackend.domain.shared.enums.UserRole;

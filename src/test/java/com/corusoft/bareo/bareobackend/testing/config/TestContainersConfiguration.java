@@ -13,7 +13,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class TestcontainersConfiguration {
+public class TestContainersConfiguration {
   private static final String POSTGIS_IMAGE_NAME = "postgis/postgis:18-3.7-alpine";
 
   @Bean

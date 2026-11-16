@@ -26,7 +26,21 @@ public class TestUserDataset {
   public static final String RAW_DEFAULT_USER_AVATAR_URL = "https://unavatar.io/github/mario";
   public static final String RAW_OTHER_DEFAULT_USER_AVATAR_URL = "https://unavatar.io/github/luigi";
 
+  public static final String RAW_JWT_TOKEN =
+      new StringBuilder()
+          .append("eyJhbGciOiJSUzI1NiIsImtpZCI6Im1vY2tfa2V5X2lkIn0")
+          .append(".")
+          .append(
+              "eyJzdWIiOiJ0ZXN0LXVzZXItMTIzIiwiZW1haWwiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3Rlc3QtcHJvamVjdCIsImF1ZCI6InRlc3QtcHJvamVjdCIsImF1dGhfdGltZSI6MTcwMDAwMDAwMCwidXNlcl9pZCI6InRlc3QtdXNlci0xMjMiLCJzdWIiOiJ0ZXN0LXVzZXItMTIzIiwiaWF0IjoxNzAwMDAwMDAwLCJleHAiOjE4MDAwMDAwMDB9")
+          .append(".")
+          .append("signature")
+          .toString();
+
   // endregion DATA VALUES
+
+  public static User getTestUser() {
+    return getTestUser(new UserId(RAW_DEFAULT_USER_ID));
+  }
 
   public static User getTestUser(UserId userId) {
     return getTestuser(userId, new UsernameVO(RAW_DEFAULT_USER_NICKNAME));

@@ -325,7 +325,11 @@
             </includes>
             <!-- Google Java Style -->
             <googleJavaFormat />
-            
+            <indent>
+              <spaces>true</spaces>
+              <spacesPerTab>2</spacesPerTab>
+            </indent>
+
             <toggleOffOn />
             <expandWildcardImports/>
             <shortenFullyQualifiedTypes />
@@ -342,12 +346,18 @@
           </java>
         </configuration>
         <executions>
-          <!-- Fail compilation in case of formatting issues -->
           <execution>
             <id>spotless-code-formatting</id>
-            <phase>compile</phase>
+            <phase>process-sources</phase>
             <goals>
-              <goal>check</goal>
+              <goal>apply</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>spotless-test-code-formatting</id>
+            <phase>process-test-sources</phase>
+            <goals>
+              <goal>apply</goal>
             </goals>
           </execution>
         </executions>

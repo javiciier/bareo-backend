@@ -9,7 +9,7 @@ echo "Executing pre-commit checks..."
 
 # Fix static code
 echo "Analising code with Spotless..."
-MVN_PROFILE=-Pdevelopment
+MVN_PROFILE=-Pdevelopment,testing
 if ! mvn $MVN_PROFILE spotless:check; then
   echo 1>&2 "❌ Spotless has found problems. Trying to apply automatic fixes"
   mvn spotless:apply $MVN_PROFILE

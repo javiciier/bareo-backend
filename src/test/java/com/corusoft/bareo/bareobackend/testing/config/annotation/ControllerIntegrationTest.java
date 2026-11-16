@@ -18,6 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.corusoft.bareo.bareobackend.presentation.MessageTranslator;
 import com.corusoft.bareo.bareobackend.testing.config.ControllerTestConfiguration;
 
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -31,7 +32,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles(profiles = {"test"})
 @WebMvcTest
 @AutoConfigureMockMvc
-@Import({ControllerTestConfiguration.class})
+@Import({ControllerTestConfiguration.class, MessageTranslator.class})
 public @interface ControllerIntegrationTest {
 
   @AliasFor(annotation = WebMvcTest.class, attribute = "controllers")

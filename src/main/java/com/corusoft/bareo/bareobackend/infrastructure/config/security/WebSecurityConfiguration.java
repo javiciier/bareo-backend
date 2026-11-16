@@ -20,6 +20,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.POST;
+
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfiguration {
@@ -51,7 +53,12 @@ public class WebSecurityConfiguration {
   }
 
   private void secureEndpoints(HttpSecurity http) {
-    http.authorizeHttpRequests(requests -> requests.requestMatchers("/error").permitAll());
+    http.authorizeHttpRequests(
+        requests -> {
+          requests.requestMatchers("/error").permitAll();
+          requests.requestMatchers(POST, "/v1/auth/google").permitAll();
+          requests.requestMatchers(POST, "/v1/auth/google/logout").authenticated();
+        });
 
     // Deny requests to endpoints that are not explicitly registered
     http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
