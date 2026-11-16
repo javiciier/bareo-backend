@@ -237,6 +237,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+          <jvmArguments>-XX:+UseStringDeduplication</jvmArguments>
+        </configuration>
 			</plugin>
 			
 			<plugin>

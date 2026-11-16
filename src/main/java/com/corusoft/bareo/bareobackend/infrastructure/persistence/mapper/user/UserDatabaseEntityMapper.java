@@ -7,7 +7,7 @@
 package com.corusoft.bareo.bareobackend.infrastructure.persistence.mapper.user;
 
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
-import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatar;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatarVO;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.EmailVO;
@@ -31,7 +31,7 @@ public class UserDatabaseEntityMapper implements DatabaseEntityMapper<User, User
     UsernameVO username = nullable(entity.getUsername(), UsernameVO::new);
     EmailVO emailVO = new EmailVO(entity.getEmail());
     ISOCountryCodeVO countryCode = nullable(entity.getCountryCode(), ISOCountryCodeVO::new);
-    UserAvatar userAvatar = UserAvatar.of(entity.getAvatarUrl());
+    UserAvatarVO userAvatar = UserAvatarVO.of(entity.getAvatarUrl());
 
     return User.builder()
         .id(userId)

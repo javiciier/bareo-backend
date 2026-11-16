@@ -20,9 +20,9 @@ import com.corusoft.bareo.bareobackend.presentation.dto.auth.request.GoogleAuthe
 import com.corusoft.bareo.bareobackend.presentation.dto.auth.response.AuthenticatedUserResponse;
 import com.corusoft.bareo.bareobackend.presentation.dto.user.response.UserSummaryResponse;
 import com.corusoft.bareo.bareobackend.testing.config.annotation.ControllerIntegrationTest;
+import com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset;
 import com.corusoft.bareo.bareobackend.testing.integration.util.client.TestRestClient;
 import com.corusoft.bareo.bareobackend.testing.integration.util.client.TestRestClientBuilder;
-import com.corusoft.bareo.bareobackend.testing.unit.utils.TestDataFactory;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ import static org.mockito.Mockito.when;
 @ControllerIntegrationTest(controllers = {AuthController.class})
 @TestInstance(Lifecycle.PER_CLASS)
 public class AuthControllerIntegrationTest {
-  private final User testUser = TestDataFactory.createTestUser(new UserId("1234"), "testUser");
+  private final User testUser = TestUserDataset.getTestUser(new UserId("1234"));
   String RAW_JWT_TOKEN =
       """
       eyJhbGciOiJSUzI1NiIsImtpZCI6Im1vY2tfa2V5X2lkIn0

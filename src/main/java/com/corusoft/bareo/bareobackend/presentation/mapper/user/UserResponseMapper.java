@@ -7,7 +7,7 @@
 package com.corusoft.bareo.bareobackend.presentation.mapper.user;
 
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
-import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatar;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatarVO;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.presentation.dto.user.response.UserSummaryResponse;
 
@@ -20,7 +20,7 @@ public class UserResponseMapper {
         .id(entity.getId().toString())
         .username(nullable(entity.getUsername(), UsernameVO::toString))
         .city(entity.getCity())
-        .avatarUrl(nullable(entity.getAvatar(), UserAvatar::toString))
+        .avatarUrl(nullable(entity.getAvatar(), UserAvatarVO::toString))
         .build();
   }
 }

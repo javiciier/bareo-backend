@@ -12,17 +12,13 @@ import org.junit.jupiter.api.Test;
 
 import static com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO.USERNAME_MAX_LENGTH;
 import static com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO.USERNAME_MIN_LENGTH;
+import static com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset.RAW_DEFAULT_USER_NICKNAME;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UsernameVOUnitTest {
-  private static final String RAW_VALID_USERNAME = "username";
-  private static final String RAW_TOO_SHORT_USERNAME = "user";
-  private static final String RAW_TOO_LONG_USERNAME =
-      "currentusernameislongerthantheallowedfiftycharacters";
-
   private static final String INVALID_LENGTH_MESSAGE =
       "Username length must be between 5 and 50 characters";
 
@@ -48,17 +44,19 @@ public class UsernameVOUnitTest {
 
   @Test
   void when_toString_then_ok() {
-    assertEquals(RAW_VALID_USERNAME, new UsernameVO(RAW_VALID_USERNAME).toString());
+    assertEquals(RAW_DEFAULT_USER_NICKNAME, new UsernameVO(RAW_DEFAULT_USER_NICKNAME).toString());
   }
 
   @Test
   void when_equals_then_ok() {
-    assertEquals(new UsernameVO(RAW_VALID_USERNAME), new UsernameVO(RAW_VALID_USERNAME));
+    assertEquals(
+        new UsernameVO(RAW_DEFAULT_USER_NICKNAME), new UsernameVO(RAW_DEFAULT_USER_NICKNAME));
   }
 
   @Test
   void when_notEquals_then_fail() {
-    assertNotEquals(new UsernameVO(RAW_VALID_USERNAME), new UsernameVO(RAW_VALID_USERNAME + "_"));
+    assertNotEquals(
+        new UsernameVO(RAW_DEFAULT_USER_NICKNAME), new UsernameVO(RAW_DEFAULT_USER_NICKNAME + "_"));
   }
 
   @Test

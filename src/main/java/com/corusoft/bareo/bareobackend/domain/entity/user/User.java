@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatar;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatarVO;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.domain.shared.enums.UserGender;
@@ -30,7 +30,7 @@ public class User {
   private final UserGender gender;
   private final String city;
   private final ISOCountryCodeVO countryCode;
-  private final UserAvatar avatar;
+  private final UserAvatarVO avatar;
   private final Instant createdAt;
   private final Instant updatedAt;
 }

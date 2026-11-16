@@ -11,9 +11,9 @@ import java.util.Objects;
 
 import com.corusoft.bareo.bareobackend.shared.ValueObject;
 
-public record UserAvatar(URI value) implements ValueObject<URI> {
+public record UserAvatarVO(URI value) implements ValueObject<URI> {
 
-  public UserAvatar {
+  public UserAvatarVO {
     Objects.requireNonNull(value, "Avatar URL cannot be null");
 
     if (value.toString().isBlank()) {
@@ -21,7 +21,7 @@ public record UserAvatar(URI value) implements ValueObject<URI> {
     }
   }
 
-  public static UserAvatar of(String value) {
+  public static UserAvatarVO of(String value) {
     Objects.requireNonNull(value, "Avatar URL cannot be null");
 
     if (value.isBlank()) {
@@ -29,7 +29,7 @@ public record UserAvatar(URI value) implements ValueObject<URI> {
     }
 
     try {
-      return new UserAvatar(URI.create(value.trim()));
+      return new UserAvatarVO(URI.create(value.trim()));
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Avatar URL is invalid: " + value);
     }

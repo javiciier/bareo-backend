@@ -10,12 +10,12 @@ import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 
 import org.junit.jupiter.api.Test;
 
+import static com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset.RAW_DEFAULT_USER_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserIdUnitTest {
-  private static final String RAW_VALID_ID = "4lL2sVHVD0b9eqJIg4UpXmcZGYD3";
 
   @Test
   void when_isNull_then_fail() {
@@ -40,12 +40,12 @@ public class UserIdUnitTest {
 
   @Test
   void when_toString_then_ok() {
-    assertEquals(RAW_VALID_ID, new UserId(RAW_VALID_ID).toString());
+    assertEquals(RAW_DEFAULT_USER_ID, new UserId(RAW_DEFAULT_USER_ID).toString());
   }
 
   @Test
   void when_equals_then_ok() {
-    assertEquals(new UserId(RAW_VALID_ID), new UserId(RAW_VALID_ID));
+    assertEquals(new UserId(RAW_DEFAULT_USER_ID), new UserId(RAW_DEFAULT_USER_ID));
   }
 
   @Test
