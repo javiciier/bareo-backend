@@ -8,13 +8,10 @@ package com.corusoft.bareo.bareobackend.application.service.authentication;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.corusoft.bareo.bareobackend.application.service.user.UserService;
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.exception.auth.ExpiredTokenException;
 import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;
-import com.corusoft.bareo.bareobackend.domain.exception.auth.TokenCustomizationException;
-import com.corusoft.bareo.bareobackend.domain.exception.user.UserNotFoundException;
 import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.FirebaseService;
 import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.adapter.FirebaseAdapter;
 
@@ -29,19 +26,19 @@ public class AuthenticationService {
 
   private final FirebaseService firebaseService;
 
-  public AuthenticationService(FirebaseService firebaseService, UserService userService) {
+  public AuthenticationService(FirebaseService firebaseService) {
     this.firebaseService = firebaseService;
   }
 
   public User authenticateUserWithToken(String token)
-      throws UserNotFoundException, TokenCustomizationException {
+      throws IllegalArgumentException, ExpiredTokenException, InvalidTokenException {
     UserId userId;
 
     // Validate token
     try {
       FirebaseToken firebaseToken = verifyToken(token);
       userId = new UserId(firebaseToken.getUid());
-    } catch (UserNotFoundException e) {
+    } catch (IllegalArgumentException | ExpiredTokenException | InvalidTokenException e) {
       logger.error("Could not authenticate user using token", e);
       throw e;
     }

@@ -59,22 +59,21 @@ public class GoogleLoginAuthenticationControllerIntegrationTest {
     TestRestClient testClient = testRestClientBuilder.build();
     GoogleLoginRequest requestBody = new GoogleLoginRequest(RAW_JWT_TOKEN);
     ResponseSpec controllerResponse = testClient.post(ENDPOINT, requestBody);
-
-    // Assert
-    ApiResponse<AuthenticatedUserResponse> responseDto =
+    ApiResponse<AuthenticatedUserResponse> apiResponse =
         controllerResponse
             .expectStatus()
             .isCreated()
             .expectBody(new ParameterizedTypeReference<ApiResponse<AuthenticatedUserResponse>>() {})
             .returnResult()
             .getResponseBody();
-    verify(googleLoginUseCase).execute(expectedCommand);
 
+    // Assert
+    verify(googleLoginUseCase).execute(expectedCommand);
     assertAll(
-        () -> assertNotNull(responseDto),
-        () -> assertTrue(responseDto.success()),
-        () -> assertNotNull(responseDto.data()));
-    AuthenticatedUserResponse authenticatedUser = responseDto.data();
+        () -> assertNotNull(apiResponse),
+        () -> assertTrue(apiResponse.success()),
+        () -> assertNotNull(apiResponse.data()));
+    AuthenticatedUserResponse authenticatedUser = apiResponse.data();
     UserSummaryResponse userSummary = authenticatedUser.userSummary();
     assertAll(
         () -> assertNotNull(authenticatedUser.token()),

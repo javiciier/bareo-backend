@@ -16,6 +16,8 @@ if ! mvn $MVN_PROFILE spotless:check; then
 fi
 
 echo "Pre-commit checks executed successfully."
+
+exit 0
 EOF
 
 # Grant execution permissions to the hook

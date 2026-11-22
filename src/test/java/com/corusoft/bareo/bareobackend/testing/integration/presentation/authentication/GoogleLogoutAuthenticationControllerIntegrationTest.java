@@ -53,7 +53,7 @@ public class GoogleLogoutAuthenticationControllerIntegrationTest {
     ResponseSpec controllerResponse = testClient.post(ENDPOINT);
 
     // Assert
-    ApiResponse<Void> responseDto =
+    ApiResponse<Void> apiResponse =
         controllerResponse
             .expectStatus()
             .isOk()
@@ -63,8 +63,8 @@ public class GoogleLogoutAuthenticationControllerIntegrationTest {
     verify(googleLogoutUseCase).execute(expectedCommand);
 
     assertAll(
-        () -> assertNotNull(responseDto),
-        () -> assertTrue(responseDto.success()),
-        () -> assertNull(responseDto.data()));
+        () -> assertNotNull(apiResponse),
+        () -> assertTrue(apiResponse.success()),
+        () -> assertNull(apiResponse.data()));
   }
 }

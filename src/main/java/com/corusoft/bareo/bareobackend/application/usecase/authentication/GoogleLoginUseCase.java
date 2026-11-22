@@ -16,8 +16,8 @@ import com.corusoft.bareo.bareobackend.application.usecase.authentication.comman
 import com.corusoft.bareo.bareobackend.application.usecase.authentication.result.GoogleLoginUseCaseResult;
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
-import com.corusoft.bareo.bareobackend.domain.exception.auth.TokenCustomizationException;
-import com.corusoft.bareo.bareobackend.domain.exception.user.UserNotFoundException;
+import com.corusoft.bareo.bareobackend.domain.exception.auth.ExpiredTokenException;
+import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;
 import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.FirebaseService;
 
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import static com.corusoft.bareo.bareobackend.infrastructure.config.security.Tok
 @Slf4j
 public class GoogleLoginUseCase {
 
-  private static final Map<String, Object> DEFAULT_NEW_USER_CLAIMS =
+  public static final Map<String, Object> DEFAULT_NEW_USER_CLAIMS =
       Map.of(ROLE_CLAIM.getClaimName(), ROLE_BASIC.name());
 
   private final AuthenticationService authenticationService;
@@ -65,10 +65,11 @@ public class GoogleLoginUseCase {
     return result;
   }
 
-  private User authenticateToken(GoogleLoginUseCaseCommand command) {
+  private User authenticateToken(GoogleLoginUseCaseCommand command)
+      throws IllegalArgumentException, ExpiredTokenException, InvalidTokenException {
     try {
       return authenticationService.authenticateUserWithToken(command.token());
-    } catch (UserNotFoundException | TokenCustomizationException e) {
+    } catch (IllegalArgumentException | ExpiredTokenException | InvalidTokenException e) {
       logger.error("Cannot authenticate user with token", e);
       throw e;
     }

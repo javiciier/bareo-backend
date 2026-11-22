@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+
+  <Properties>
+    <!-- Logs format: date -> trazability -> level -> logger -> message -->
+    <Property name="requestTrace">[%notEmpty{user: %X{userId}}%notEmpty{, request: %X{requestId}}]</Property>
+    <Property name="logFormat">${date} ${requestTrace} ${level} ${thread} ${logger} - ${message}%n</Property>
+    <Property name="highlightedLogFormat">${date} ${requestTrace} ${highlightLevel} ${thread} ${logger} - ${message}%n</Property>
+
+    <!-- Variables -->
+    <Property name="basePackage">com.corusoft.bareo</Property>
+    <Property name="logsDir">logs/development</Property>
+    <Property name="rollingFileName">${logsDir}/logs.log</Property>
+    <Property name="rollingFilePattern">${logsDir}/old/logs-%d{yyyy-MM-dd}_%i.log.gz</Property>
+    <Property name="maxLogsRetentionDays">30</Property>
+
+    <!-- Properties to be logged -->
+    <Property name="date">%d{ISO8601}%d{Z}</Property>
+    <Property name="thread">[%t]</Property>
+    <Property name="userId">%X{userId}</Property>
+    <Property name="requestId">%X{requestId}</Property>
+    <Property name="level">%-5level</Property>
+    <Property name="highlightLevel">%highlight{${level}}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=blue}</Property>
+    <Property name="logger">%logger{36}</Property>
+    <Property name="message">%msg</Property>
+  </Properties>
+
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="${logFormat}" />
+      <PatternLayout pattern="${highlightedLogFormat}" />
     </Console>
 
     <RollingFile
@@ -17,7 +42,7 @@
           <IfFileName glob="logs-*.log.gz" />
         </Delete>
       </DefaultRolloverStrategy>
-      <PatternLayout>
+      <PatternLayout disableAnsi="true">
         <Pattern>${logFormat}</Pattern>
       </PatternLayout>
       <Policies>
@@ -27,28 +52,6 @@
     </RollingFile>
 
   </Appenders>
-  
-  <Properties>
-    <!-- Logs format: date -> trazability -> level -> logger -> message -->
-    <Property name="requestTrace">[%notEmpty{user: %X{userId}}%notEmpty{, request: %X{requestId}}]</Property>
-    <Property name="logFormat">${date} ${requestTrace} ${level} ${thread} ${logger} - ${message}%n</Property>
-    
-    <!-- Variables -->
-    <Property name="basePackage">com.corusoft.bareo</Property>
-    <Property name="logsDir">logs/development</Property>
-    <Property name="rollingFileName">${logsDir}/logs.log</Property>
-    <Property name="rollingFilePattern">${logsDir}/old/logs-%d{yyyy-MM-dd}_%i.log.gz</Property>
-    <Property name="maxLogsRetentionDays">30</Property>
-    
-    <!-- Properties to be logged -->
-    <Property name="date">%d{ISO8601}%d{Z}</Property>
-    <Property name="thread">[%t]</Property>
-    <Property name="userId">%X{userId}</Property>
-    <Property name="requestId">%X{requestId}</Property>
-    <Property name="level">%-5level</Property>
-    <Property name="logger">%logger{36}</Property>
-    <Property name="message">%msg</Property>
-  </Properties>
 
   <Loggers>
     <Logger level="ERROR" name="org.hibernate" />
