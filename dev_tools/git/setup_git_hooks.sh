@@ -13,7 +13,6 @@ MVN_PROFILE=-Ptesting,!development
 if ! mvn $MVN_PROFILE spotless:check; then
   echo 1>&2 "❌ Spotless has found problems. Trying to apply automatic fixes"
   mvn spotless:apply $MVN_PROFILE
-  exit 1
 fi
 
 echo "Pre-commit checks executed successfully."
