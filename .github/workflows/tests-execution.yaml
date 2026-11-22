@@ -9,7 +9,10 @@ on:
       - develop
       - staging
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 jobs:
   execute-tests:
