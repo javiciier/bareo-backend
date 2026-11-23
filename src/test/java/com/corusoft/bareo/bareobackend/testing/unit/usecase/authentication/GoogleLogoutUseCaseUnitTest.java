@@ -12,7 +12,7 @@ import com.corusoft.bareo.bareobackend.application.usecase.authentication.comman
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
 import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;
-import com.corusoft.bareo.bareobackend.testing.config.annotation.UseCaseUnitTest;
+import com.corusoft.bareo.bareobackend.testing.config.annotation.UnitTest;
 import com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset;
 
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
-@UseCaseUnitTest
+@UnitTest
 public class GoogleLogoutUseCaseUnitTest {
 
   private final User testUser = TestUserDataset.getTestUser();

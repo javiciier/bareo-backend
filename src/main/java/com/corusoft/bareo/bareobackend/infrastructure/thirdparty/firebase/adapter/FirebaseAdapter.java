@@ -30,12 +30,6 @@ public class FirebaseAdapter {
     Instant creationDate =
         Instant.ofEpochMilli(userRecord.getUserMetadata().getCreationTimestamp());
 
-    return User.builder()
-        .id(id)
-        .email(email)
-        .avatar(avatar)
-        .createdAt(creationDate)
-        .updatedAt(Instant.now())
-        .build();
+    return User.builder().id(id).email(email).avatar(avatar).createdAt(creationDate).build();
   }
 }

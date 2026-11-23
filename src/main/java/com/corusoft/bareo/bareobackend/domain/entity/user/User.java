@@ -7,6 +7,7 @@
 package com.corusoft.bareo.bareobackend.domain.entity.user;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,8 @@ import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO;
 import com.corusoft.bareo.bareobackend.domain.shared.enums.UserGender;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.EmailVO;
 import com.corusoft.bareo.bareobackend.domain.shared.vo.ISOCountryCodeVO;
+
+import static java.util.Objects.hash;
 
 @Getter
 @AllArgsConstructor
@@ -33,4 +36,18 @@ public class User {
   private final UserAvatarVO avatar;
   private final Instant createdAt;
   private final Instant updatedAt;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    User other = (User) obj;
+
+    return Objects.equals(id, other.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return hash(id, username, email, createdAt);
+  }
 }

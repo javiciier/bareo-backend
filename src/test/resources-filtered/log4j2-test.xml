@@ -8,7 +8,7 @@
     <Property name="highlightedLogFormat">${date} ${requestTrace} ${highlightLevel} ${thread} ${logger} - ${message}%n</Property>
 
     <!-- Variables -->
-    <Property name="basePackage">com.corusoft.bareo</Property>
+    <Property name="basePackage">com.corusoft.bareo.bareobackend.testing</Property>
     <Property name="logsDir">logs/testing</Property>
     <Property name="rollingFileName">${logsDir}/logs.log</Property>
     <Property name="rollingFilePattern">${logsDir}/old/logs-%d{yyyy-MM-dd}_%i.log.gz</Property>

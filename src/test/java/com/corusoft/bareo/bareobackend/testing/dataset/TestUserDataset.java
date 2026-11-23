@@ -6,6 +6,8 @@
  */
 package com.corusoft.bareo.bareobackend.testing.dataset;
 
+import java.time.Instant;
+
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatarVO;
 import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
@@ -100,6 +102,32 @@ public class TestUserDataset {
       String city,
       ISOCountryCodeVO countryCode,
       UserAvatarVO avatar) {
+    return getTestuser(userId, username, email, gender, city, countryCode, avatar, Instant.now());
+  }
+
+  public static User getTestuser(
+      UserId userId,
+      UsernameVO username,
+      EmailVO email,
+      UserGender gender,
+      String city,
+      ISOCountryCodeVO countryCode,
+      UserAvatarVO avatar,
+      Instant createdAt) {
+    return getTestuser(
+        userId, username, email, gender, city, countryCode, avatar, createdAt, Instant.now());
+  }
+
+  public static User getTestuser(
+      UserId userId,
+      UsernameVO username,
+      EmailVO email,
+      UserGender gender,
+      String city,
+      ISOCountryCodeVO countryCode,
+      UserAvatarVO avatar,
+      Instant createdAt,
+      Instant updatedAt) {
     return User.builder()
         .id(userId)
         .username(username)
@@ -108,6 +136,8 @@ public class TestUserDataset {
         .city(city)
         .countryCode(countryCode)
         .avatar(avatar)
+        .createdAt(createdAt)
+        .updatedAt(updatedAt)
         .build();
   }
 }

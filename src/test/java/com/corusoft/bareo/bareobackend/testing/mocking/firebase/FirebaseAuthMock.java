@@ -6,6 +6,8 @@
  */
 package com.corusoft.bareo.bareobackend.testing.mocking.firebase;
 
+import com.corusoft.bareo.bareobackend.domain.entity.user.User;
+
 import com.google.firebase.auth.AuthErrorCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -27,8 +29,9 @@ public class FirebaseAuthMock {
 
   private static FirebaseAuth firebaseAuth;
 
-  public static void initializeMock(FirebaseAuth auth) {
-    firebaseAuth = auth;
+  public static FirebaseAuth initializeMock() {
+    firebaseAuth = mock(FirebaseAuth.class);
+    return firebaseAuth;
   }
 
   public static void resetMock() {
@@ -50,12 +53,44 @@ public class FirebaseAuthMock {
     return mockedException;
   }
 
+  public static FirebaseToken mockFirebaseToken() {
+    return mock(FirebaseToken.class);
+  }
+
+  public static FirebaseToken mockFirebaseToken(User expectedUser) {
+    FirebaseToken mockedToken = mockFirebaseToken();
+    when(mockedToken.getUid()).thenReturn(expectedUser.getId().value());
+
+    return mockedToken;
+  }
+
   public static UserRecord mockUserRecord() {
     return mock(UserRecord.class);
   }
 
+  public static UserRecord mockUserRecord(User expectedUser) {
+    UserRecord mockedUserRecord = mockUserRecord();
+
+    UserMetadata mockedUserMetadata = mockUserMetadata(expectedUser);
+    when(mockedUserRecord.getUserMetadata()).thenReturn(mockedUserMetadata);
+
+    when(mockedUserRecord.getUid()).thenReturn(expectedUser.getId().value());
+    when(mockedUserRecord.getEmail()).thenReturn(expectedUser.getEmail().value());
+    when(mockedUserRecord.getPhotoUrl()).thenReturn(expectedUser.getAvatar().value().toString());
+
+    return mockedUserRecord;
+  }
+
   public static UserMetadata mockUserMetadata() {
     return mock(UserMetadata.class);
+  }
+
+  public static UserMetadata mockUserMetadata(User expectedUser) {
+    UserMetadata mockedUserMetadata = mockUserMetadata();
+    when(mockedUserMetadata.getCreationTimestamp())
+        .thenReturn(expectedUser.getCreatedAt().toEpochMilli());
+
+    return mockedUserMetadata;
   }
 
   // region createUser

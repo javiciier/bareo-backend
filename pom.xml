@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.1.2</version>
+		<version>4.2.0</version>
 		<relativePath/>
 	</parent>
 	
@@ -287,6 +287,11 @@
             <version>4.0.3</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <excludes>
+            <exclude>**/infrastructure/config/**</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <id>prepare-jacoco-agent-for-unit-tests</id>
@@ -510,7 +515,6 @@
               <finalName>${project.build.finalName}</finalName>
               <layout>JAR</layout>
               <mainClass>com.corusoft.bareo.bareobackend.BareoBackendApplication</mainClass>
-<!--              <outputDirectory>${project.artifact.buildDirectory}</outputDirectory>-->
               <excludeDockerCompose>true</excludeDockerCompose>
                 <layers>
                   <enabled>true</enabled>

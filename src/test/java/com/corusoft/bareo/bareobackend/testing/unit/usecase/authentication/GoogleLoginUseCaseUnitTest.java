@@ -19,7 +19,7 @@ import com.corusoft.bareo.bareobackend.domain.exception.auth.ExpiredTokenExcepti
 import com.corusoft.bareo.bareobackend.domain.exception.auth.InvalidTokenException;
 import com.corusoft.bareo.bareobackend.domain.exception.user.UserNotFoundException;
 import com.corusoft.bareo.bareobackend.infrastructure.thirdparty.firebase.FirebaseService;
-import com.corusoft.bareo.bareobackend.testing.config.annotation.UseCaseUnitTest;
+import com.corusoft.bareo.bareobackend.testing.config.annotation.UnitTest;
 import com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset;
 
 import org.junit.jupiter.api.AfterEach;
@@ -37,7 +37,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@UseCaseUnitTest
+@UnitTest
 public class GoogleLoginUseCaseUnitTest {
   private final User testUser = TestUserDataset.getTestUser();
 

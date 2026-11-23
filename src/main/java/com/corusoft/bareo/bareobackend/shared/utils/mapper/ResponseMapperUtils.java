@@ -8,6 +8,8 @@ package com.corusoft.bareo.bareobackend.shared.utils.mapper;
 
 import java.util.function.Function;
 
+import static java.util.Objects.isNull;
+
 public class ResponseMapperUtils {
 
   /**
@@ -20,6 +22,10 @@ public class ResponseMapperUtils {
    * @param <R> Return type of the getter
    */
   public static <T, R> R nullable(T value, Function<T, R> getter) {
-    return (value != null) ? getter.apply(value) : null;
+    if (isNull(value)) {
+      return null;
+    }
+
+    return getter.apply(value);
   }
 }

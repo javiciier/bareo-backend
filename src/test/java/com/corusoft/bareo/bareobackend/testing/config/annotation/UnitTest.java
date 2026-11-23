@@ -21,4 +21,4 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles(profiles = {"test"})
 @ExtendWith(MockitoExtension.class)
 @Transactional
-public @interface UseCaseUnitTest {}
+public @interface UnitTest {}
