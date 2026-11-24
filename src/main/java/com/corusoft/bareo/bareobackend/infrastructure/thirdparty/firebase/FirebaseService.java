@@ -89,7 +89,7 @@ public class FirebaseService {
     try {
       firebaseAuth.deleteUser(userId.value());
     } catch (IllegalArgumentException e) {
-      logger.error("Cannot delete user with null ID", e);
+      logger.error("Cannot remove Firebase user with invalid user ID");
       throw new UserNotFoundException(userId);
     } catch (FirebaseAuthException e) {
       AuthErrorCode authErrorCode = e.getAuthErrorCode();
@@ -106,6 +106,10 @@ public class FirebaseService {
 
   public void assignClaimsToUser(UserId userId, Map<String, Object> claims)
       throws UserNotFoundException, TokenCustomizationException {
+    if (claims == null) {
+      throw new TokenCustomizationException(userId);
+    }
+
     // Merge old claims with the new ones
     Map<String, Object> currentClaims = getUser(userId).getCustomClaims();
     Map<String, Object> mergedClaims =

@@ -10,10 +10,13 @@ echo "Executing pre-commit checks..."
 # Fix static code
 echo "Analising code with Spotless..."
 MVN_PROFILE=-Ptesting,!development
-if ! mvn $MVN_PROFILE spotless:check; then
-  echo 1>&2 "❌ Spotless has found problems. Trying to apply automatic fixes"
-  mvn spotless:apply $MVN_PROFILE
+if ! mvn spotless:apply $MVN_PROFILE; then
+  echo 1>&2 "❌ Spotless failed to apply automatic code formatting."
+  exit 1
 fi
+
+echo "Adding to Git stage the formatted files..."
+git add .
 
 echo "Pre-commit checks executed successfully."
 

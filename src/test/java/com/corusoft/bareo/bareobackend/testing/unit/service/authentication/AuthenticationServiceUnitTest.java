@@ -101,9 +101,9 @@ public class AuthenticationServiceUnitTest {
     @Test
     void when_authenticateUserWithToken_nonRegisteredUserInFirebase_then_fail() throws Exception {
       // Arrange
-      FirebaseAuthException mockedFirebaseAuthException =
+      FirebaseAuthException firebaseAuthException =
           FirebaseAuthMock.mockFirebaseAuthException(AuthErrorCode.USER_NOT_FOUND);
-      FirebaseAuthMock.mockVerifyIdToken(mockedFirebaseAuthException);
+      FirebaseAuthMock.mockVerifyIdToken(firebaseAuthException);
 
       // Act
       AuthenticationService authService = new AuthenticationService(firebaseService);
@@ -117,9 +117,9 @@ public class AuthenticationServiceUnitTest {
     @Test
     void when_authenticateUserWithToken_expiredToken_then_fail() throws Exception {
       // Arrange
-      FirebaseAuthException mockedFirebaseAuthException =
+      FirebaseAuthException firebaseAuthException =
           FirebaseAuthMock.mockFirebaseAuthException(AuthErrorCode.EXPIRED_ID_TOKEN);
-      FirebaseAuthMock.mockVerifyIdToken(mockedFirebaseAuthException);
+      FirebaseAuthMock.mockVerifyIdToken(firebaseAuthException);
 
       // Act
       AuthenticationService authService = new AuthenticationService(firebaseService);
@@ -132,9 +132,9 @@ public class AuthenticationServiceUnitTest {
     @Test
     void when_authenticateUserWithToken_invalidToken_then_fail() throws Exception {
       // Arrange
-      FirebaseAuthException mockedFirebaseAuthException =
+      FirebaseAuthException firebaseAuthException =
           FirebaseAuthMock.mockFirebaseAuthException(AuthErrorCode.INVALID_ID_TOKEN);
-      FirebaseAuthMock.mockVerifyIdToken(mockedFirebaseAuthException);
+      FirebaseAuthMock.mockVerifyIdToken(firebaseAuthException);
 
       // Act
       AuthenticationService authService = new AuthenticationService(firebaseService);
@@ -147,9 +147,9 @@ public class AuthenticationServiceUnitTest {
     @Test
     void when_authenticateUserWithToken_revokedToken_then_fail() throws Exception {
       // Arrange
-      FirebaseAuthException mockedFirebaseAuthException =
+      FirebaseAuthException firebaseAuthException =
           FirebaseAuthMock.mockFirebaseAuthException(AuthErrorCode.REVOKED_ID_TOKEN);
-      FirebaseAuthMock.mockVerifyIdToken(mockedFirebaseAuthException);
+      FirebaseAuthMock.mockVerifyIdToken(firebaseAuthException);
 
       // Act
       AuthenticationService authService = new AuthenticationService(firebaseService);
@@ -179,9 +179,9 @@ public class AuthenticationServiceUnitTest {
     @Test
     void when_revokeAuthentication_revokedToken_then_ok() throws Exception {
       // Arrange
-      FirebaseAuthException mockedFirebaseAuthException =
+      FirebaseAuthException firebaseAuthException =
           FirebaseAuthMock.mockFirebaseAuthException(AuthErrorCode.REVOKED_ID_TOKEN);
-      FirebaseAuthMock.mockRevokeRefreshTokens(mockedFirebaseAuthException);
+      FirebaseAuthMock.mockRevokeRefreshTokens(firebaseAuthException);
 
       // Act
       AuthenticationService authService = new AuthenticationService(firebaseService);
@@ -193,9 +193,9 @@ public class AuthenticationServiceUnitTest {
     @Test
     void when_revokeAuthentication_nonExistentUserInFirebase_then_ok() throws Exception {
       // Arrange
-      FirebaseAuthException mockedFirebaseAuthException =
+      FirebaseAuthException firebaseAuthException =
           FirebaseAuthMock.mockFirebaseAuthException(AuthErrorCode.USER_NOT_FOUND);
-      FirebaseAuthMock.mockRevokeRefreshTokens(mockedFirebaseAuthException);
+      FirebaseAuthMock.mockRevokeRefreshTokens(firebaseAuthException);
 
       // Act
       AuthenticationService authService = new AuthenticationService(firebaseService);
@@ -207,9 +207,9 @@ public class AuthenticationServiceUnitTest {
     @Test
     void when_revokeAuthentication_malformedToken_then_fail() throws Exception {
       // Arrange
-      FirebaseAuthException mockedFirebaseAuthException =
+      FirebaseAuthException firebaseAuthException =
           FirebaseAuthMock.mockFirebaseAuthException(AuthErrorCode.INVALID_ID_TOKEN);
-      FirebaseAuthMock.mockRevokeRefreshTokens(mockedFirebaseAuthException);
+      FirebaseAuthMock.mockRevokeRefreshTokens(firebaseAuthException);
 
       // Act
       AuthenticationService authService = new AuthenticationService(firebaseService);

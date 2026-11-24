@@ -6,6 +6,8 @@
  */
 package com.corusoft.bareo.bareobackend.testing.mocking.firebase;
 
+import java.util.Map;
+
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 
 import com.google.firebase.auth.AuthErrorCode;
@@ -60,6 +62,7 @@ public class FirebaseAuthMock {
   public static FirebaseToken mockFirebaseToken(User expectedUser) {
     FirebaseToken mockedToken = mockFirebaseToken();
     when(mockedToken.getUid()).thenReturn(expectedUser.getId().value());
+    when(mockedToken.getEmail()).thenReturn(expectedUser.getEmail().value());
 
     return mockedToken;
   }
@@ -69,6 +72,10 @@ public class FirebaseAuthMock {
   }
 
   public static UserRecord mockUserRecord(User expectedUser) {
+    return mockUserRecord(expectedUser, null);
+  }
+
+  public static UserRecord mockUserRecord(User expectedUser, Map<String, Object> customClaims) {
     UserRecord mockedUserRecord = mockUserRecord();
 
     UserMetadata mockedUserMetadata = mockUserMetadata(expectedUser);
@@ -77,6 +84,10 @@ public class FirebaseAuthMock {
     when(mockedUserRecord.getUid()).thenReturn(expectedUser.getId().value());
     when(mockedUserRecord.getEmail()).thenReturn(expectedUser.getEmail().value());
     when(mockedUserRecord.getPhotoUrl()).thenReturn(expectedUser.getAvatar().value().toString());
+
+    if (customClaims != null) {
+      when(mockedUserRecord.getCustomClaims()).thenReturn(customClaims);
+    }
 
     return mockedUserRecord;
   }
@@ -166,6 +177,11 @@ public class FirebaseAuthMock {
   }
 
   public static void mockDeleteUser(FirebaseAuthException exception) throws FirebaseAuthException {
+    doThrow(exception).when(firebaseAuth).deleteUser(any(String.class));
+  }
+
+  public static void mockDeleteUser(IllegalArgumentException exception)
+      throws FirebaseAuthException {
     doThrow(exception).when(firebaseAuth).deleteUser(any(String.class));
   }
 

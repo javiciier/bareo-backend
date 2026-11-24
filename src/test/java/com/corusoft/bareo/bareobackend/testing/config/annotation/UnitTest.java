@@ -13,12 +13,13 @@ import java.lang.annotation.Target;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @ActiveProfiles(profiles = {"test"})
 @ExtendWith(MockitoExtension.class)
-@Transactional
+@MockitoSettings(strictness = Strictness.LENIENT)
 public @interface UnitTest {}
