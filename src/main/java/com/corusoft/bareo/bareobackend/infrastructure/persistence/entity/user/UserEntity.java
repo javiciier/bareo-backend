@@ -1,0 +1,72 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+package com.corusoft.bareo.bareobackend.infrastructure.persistence.entity.user;
+
+import java.time.Instant;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import com.corusoft.bareo.bareobackend.domain.shared.enums.UserGender;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(
+    schema = "users",
+    name = "user_account",
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "UQ_UserAccount_username",
+          columnNames = {"username"}),
+      @UniqueConstraint(
+          name = "UQ_UserAccount_email",
+          columnNames = {"email"}),
+    })
+public class UserEntity {
+
+  @EqualsAndHashCode.Include
+  @Id
+  @Column(name = "id", unique = true, nullable = false, length = 128)
+  private String id;
+
+  @Column(name = "username", unique = true, length = 50, nullable = false)
+  private String username;
+
+  @Column(name = "email", unique = true, nullable = false)
+  private String email;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "gender", length = 20)
+  private UserGender gender;
+
+  @Column(name = "city", length = 100)
+  private String city;
+
+  @Column(name = "iso_country_code", length = 2)
+  private String countryCode;
+
+  @Column(name = "avatar_url", columnDefinition = "text")
+  private String avatarUrl;
+
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Instant createdAt;
+
+  @Column(name = "updated_at")
+  private Instant updatedAt;
+}

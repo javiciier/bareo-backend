@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+package com.corusoft.bareo.bareobackend.infrastructure.persistence.mapper.user;
+
+import com.corusoft.bareo.bareobackend.domain.entity.user.User;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserAvatarVO;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UserId;
+import com.corusoft.bareo.bareobackend.domain.entity.user.vo.UsernameVO;
+import com.corusoft.bareo.bareobackend.domain.shared.vo.EmailVO;
+import com.corusoft.bareo.bareobackend.domain.shared.vo.ISOCountryCodeVO;
+import com.corusoft.bareo.bareobackend.infrastructure.persistence.DatabaseEntityMapper;
+import com.corusoft.bareo.bareobackend.infrastructure.persistence.entity.user.UserEntity;
+
+import org.springframework.stereotype.Component;
+
+import static java.util.Objects.isNull;
+
+@Component
+public class UserDatabaseEntityMapper implements DatabaseEntityMapper<User, UserEntity> {
+
+  @Override
+  public User mapToDomain(UserEntity entity) {
+    if (isNull(entity)) {
+      return null;
+    }
+    UserId userId = new UserId(entity.getId());
+    UsernameVO username = nullable(entity.getUsername(), UsernameVO::new);
+    EmailVO emailVO = new EmailVO(entity.getEmail());
+    ISOCountryCodeVO countryCode = nullable(entity.getCountryCode(), ISOCountryCodeVO::new);
+    UserAvatarVO userAvatar = UserAvatarVO.of(entity.getAvatarUrl());
+
+    return User.builder()
+        .id(userId)
+        .username(username)
+        .email(emailVO)
+        .city(entity.getCity())
+        .countryCode(countryCode)
+        .avatar(userAvatar)
+        .createdAt(entity.getCreatedAt())
+        .updatedAt(entity.getUpdatedAt())
+        .build();
+  }
+
+  @Override
+  public UserEntity mapToDatabase(User domain) {
+    if (isNull(domain)) {
+      return null;
+    }
+    UserEntity entity = new UserEntity();
+
+    if (!isNull(domain.getId())) {
+      entity.setId(domain.getId().value());
+    }
+    entity.setUsername(nullable(domain.getUsername(), UsernameVO::value));
+    entity.setEmail(nullable(domain.getEmail(), EmailVO::value));
+    entity.setGender(domain.getGender());
+    entity.setCity(domain.getCity());
+    entity.setCountryCode(nullable(domain.getCountryCode(), ISOCountryCodeVO::value));
+    entity.setAvatarUrl(nullable(domain.getAvatar(), avatar -> avatar.value().toString()));
+    entity.setCreatedAt(domain.getCreatedAt());
+    entity.setUpdatedAt(domain.getUpdatedAt());
+
+    return entity;
+  }
+}

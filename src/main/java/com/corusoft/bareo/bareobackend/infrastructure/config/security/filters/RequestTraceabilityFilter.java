@@ -1,0 +1,64 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+package com.corusoft.bareo.bareobackend.infrastructure.config.security.filters;
+
+import java.io.IOException;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.ThreadContext;
+import org.jspecify.annotations.NonNull;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.USER_ID_REQUEST_ATTRIBUTE;
+import static com.corusoft.bareo.bareobackend.infrastructure.config.security.SecurityConstants.X_REQUEST_ID_HEADER_NAME;
+import static java.util.Objects.isNull;
+
+/** Filter to allow tracing the operations done by a user during the request lifetime. */
+@Component
+public class RequestTraceabilityFilter extends OncePerRequestFilter {
+
+  public static final String USER_ID_LOG_KEY = USER_ID_REQUEST_ATTRIBUTE;
+  public static final String USER_ID_DEFAULT_LOG_VALUE = "ANONYMOUS";
+
+  public static final String REQUEST_ID_LOG_KEY = "requestId";
+  public static final String REQUEST_ID_DEFAULT_LOG_VALUE = "0";
+
+  @Override
+  protected void doFilterInternal(
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain)
+      throws ServletException, IOException {
+    Object requestUserId = request.getAttribute(USER_ID_REQUEST_ATTRIBUTE);
+    Object requestId = request.getHeader(X_REQUEST_ID_HEADER_NAME);
+
+    try {
+      if (isNull(requestUserId)) {
+        ThreadContext.put(USER_ID_LOG_KEY, USER_ID_DEFAULT_LOG_VALUE);
+      } else {
+        ThreadContext.put(USER_ID_LOG_KEY, requestUserId.toString());
+      }
+      if (isNull(requestId)) {
+        ThreadContext.put(REQUEST_ID_LOG_KEY, REQUEST_ID_DEFAULT_LOG_VALUE);
+      } else {
+        ThreadContext.put(REQUEST_ID_LOG_KEY, requestId.toString());
+      }
+
+      // Continue filtering requests
+      filterChain.doFilter(request, response);
+    } finally {
+      // Clear keys from context to avoid leaks
+      ThreadContext.remove(USER_ID_LOG_KEY);
+      ThreadContext.remove(REQUEST_ID_LOG_KEY);
+    }
+  }
+}

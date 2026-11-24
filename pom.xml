@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.1.1</version>
+		<version>4.2.0</version>
 		<relativePath/>
 	</parent>
 	
@@ -44,15 +44,15 @@
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 	 
 	  <!-- Dependencies versions -->
-	  <archunit.version>1.4.2</archunit.version>
-    <firebase-admin.version>9.10.0</firebase-admin.version>
-    <firestore.version>3.43.0</firestore.version>
-    <hibernate.spatial.version>7.4.1.Final</hibernate.spatial.version>
+	  <archunit.version>1.5.1</archunit.version>
+    <firebase-admin.version>9.11.0</firebase-admin.version>
+    <firestore.version>3.49.0</firestore.version>
+    <hibernate.spatial.version>7.4.12.Final</hibernate.spatial.version>
 	  <jacoco.version>0.8.15</jacoco.version>
     <jts-core.version>1.20.0</jts-core.version>
-    
+
     <!-- Plugins versions -->
-    <spotless.plugin.version>3.10.2</spotless.plugin.version>
+    <spotless.plugin.version>3.10.3</spotless.plugin.version>
     
     <!-- Code coverage -->
     <sonar.coverage.jacoco.xmlReportPaths>
@@ -225,7 +225,7 @@
         <directory>src/main/resources</directory>
         <filtering>false</filtering>
       </resource>
-      
+
       <!--Resource files that contain interpolation variables -->
       <resource>
         <directory>src/main/resources-filtered</directory>
@@ -237,6 +237,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+          <jvmArguments>-XX:+UseStringDeduplication</jvmArguments>
+        </configuration>
 			</plugin>
 			
 			<plugin>
@@ -284,6 +287,11 @@
             <version>4.0.3</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <excludes>
+            <exclude>**/infrastructure/config/**</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <id>prepare-jacoco-agent-for-unit-tests</id>
@@ -312,8 +320,6 @@
             <enabled>true</enabled>
             <indexFile>${project.basedir}/.spotless-index</indexFile>
           </upToDateChecking>
-          <!-- Only format files that changed since origin/main (target remote branches only) -->
-          <ratchetFrom>origin/main</ratchetFrom>
 
           <java>
             <includes>
@@ -322,7 +328,11 @@
             </includes>
             <!-- Google Java Style -->
             <googleJavaFormat />
-            
+            <indent>
+              <spaces>true</spaces>
+              <spacesPerTab>2</spacesPerTab>
+            </indent>
+
             <toggleOffOn />
             <expandWildcardImports/>
             <shortenFullyQualifiedTypes />
@@ -339,18 +349,24 @@
           </java>
         </configuration>
         <executions>
-          <!-- Fail compilation in case of formatting issues -->
           <execution>
             <id>spotless-code-formatting</id>
-            <phase>compile</phase>
+            <phase>process-sources</phase>
             <goals>
-              <goal>check</goal>
+              <goal>apply</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>spotless-test-code-formatting</id>
+            <phase>process-test-sources</phase>
+            <goals>
+              <goal>apply</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
-
     </plugins>
+
 	</build>
 	
   <profiles>
@@ -381,6 +397,29 @@
         <activatedProperties>testing</activatedProperties>     <!-- Read configuration from application-testing.yaml -->
         <maven.test.skip>false</maven.test.skip>
       </properties>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.junit.platform</groupId>
+          <artifactId>junit-platform-launcher</artifactId>
+          <version>${junit-jupiter.version}</version>
+          <scope>test</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>${junit-jupiter.version}</version>
+          <scope>test</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+          <version>${junit-jupiter.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
       
       <build>
         <resources>
@@ -402,14 +441,8 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>${maven-surefire-plugin.version}</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.maven.surefire</groupId>
-                <artifactId>surefire-testng</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-              </dependency>
-            </dependencies>
             <configuration>
+              <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
               <skipTests>false</skipTests>
               <includes>
                 <include>**/*UnitTest.java</include>
@@ -433,14 +466,8 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${maven-failsafe-plugin.version}</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.maven.surefire</groupId>
-                <artifactId>surefire-testng</artifactId>
-                <version>${maven-failsafe-plugin.version}</version>
-              </dependency>
-            </dependencies>
             <configuration>
+              <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
               <skipTests>false</skipTests>
               <systemPropertyVariables>
                 <compose.file.path>${project.basedir}/compose-test.yaml</compose.file.path>
@@ -486,7 +513,6 @@
               <finalName>${project.build.finalName}</finalName>
               <layout>JAR</layout>
               <mainClass>com.corusoft.bareo.bareobackend.BareoBackendApplication</mainClass>
-<!--              <outputDirectory>${project.artifact.buildDirectory}</outputDirectory>-->
               <excludeDockerCompose>true</excludeDockerCompose>
                 <layers>
                   <enabled>true</enabled>
@@ -522,13 +548,24 @@
             <artifactId>maven-enforcer-plugin</artifactId>
             <version>${maven-enforcer-plugin.version}</version>
             <configuration>
-              <rules>
+              <rules combine.children="append">
                 <banDuplicatePomDependencyVersions/>
                 <reactorModuleConvergence/>
                 <requireActiveProfile>
                   <message>The current Maven profile for running application in production is not enabled</message>
                   <profiles>production</profiles>
                 </requireActiveProfile>
+                <requireJavaVersion>
+                  <version>[25,)</version>
+                </requireJavaVersion>
+                <requireMavenVersion>
+                  <version>[3.9,4.0)</version>
+                </requireMavenVersion>
+                <requirePluginVersions>
+                  <message>
+                    There are some plugin dependencies without an explicit declared version
+                  </message>
+                </requirePluginVersions>
                 <requireReleaseDeps>
                   <message>
                     Some dependencies are SNAPSHOT versions or not a final release versions

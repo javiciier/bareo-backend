@@ -1,0 +1,43 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+package com.corusoft.bareo.bareobackend.domain.shared.vo;
+
+import java.util.Objects;
+import java.util.regex.Pattern;
+
+import com.corusoft.bareo.bareobackend.shared.ValueObject;
+
+public record EmailVO(String value) implements ValueObject<String> {
+
+  private static final Pattern EMAIL_PATTERN =
+      Pattern.compile(
+          "^(?<user>[a-zA-Z0-9._%+-]+)"
+              + "@"
+              + "(?<domain>[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)"
+              + "\\."
+              + "(?<tld>[a-zA-Z]{2,})$");
+
+  public EmailVO {
+    Objects.requireNonNull(value, "Email cannot be null");
+    String normalizedValue = value.trim().toLowerCase();
+
+    if (normalizedValue.strip().isBlank()) {
+      throw new IllegalArgumentException("Email cannot be blank");
+    }
+
+    if (!EMAIL_PATTERN.matcher(normalizedValue).matches()) {
+      throw new IllegalArgumentException("Invalid email format");
+    }
+
+    value = normalizedValue;
+  }
+
+  @Override
+  public String toString() {
+    return ValueObject.asString(this);
+  }
+}

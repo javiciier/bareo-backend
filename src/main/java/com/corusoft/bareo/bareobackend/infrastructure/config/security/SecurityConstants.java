@@ -1,0 +1,28 @@
+/*
+ * Copyright (c) 2026 Bareo. All rights reserved.
+ *
+ * This software is the proprietary and confidential property of the author.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+package com.corusoft.bareo.bareobackend.infrastructure.config.security;
+
+public class SecurityConstants {
+
+  public static final int MIN_PASSWORD_LENGTH = 6;
+  public static final int MAX_PASSWORD_LENGTH = 50;
+
+  // region HTTP
+
+  public static final String PREFIX_BEARER_TOKEN = "Bearer ";
+  public static final String X_REQUEST_ID_HEADER_NAME = "X-Request-Id";
+
+  // endregion HTTP
+
+  // region AUTHENTICATION
+
+  public static final String TOKEN_ATTRIBUTE_NAME = "token";
+  public static final String USER_ID_REQUEST_ATTRIBUTE = "userId";
+
+  // endregion AUTHENTICATION
+
+}

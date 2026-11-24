@@ -1,5 +1,5 @@
 # Stage 1: builder - Build the app and extract the app layers
-FROM maven:3.9.16-amazoncorretto-25-alpine AS builder
+FROM maven:3.10.0-amazoncorretto-25-alpine AS builder
 WORKDIR /builder
 ARG ARTIFACTS_BUILD_DIRECTORY=./build
 
