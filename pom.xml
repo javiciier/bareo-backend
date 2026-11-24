@@ -320,8 +320,6 @@
             <enabled>true</enabled>
             <indexFile>${project.basedir}/.spotless-index</indexFile>
           </upToDateChecking>
-          <!-- Only format files that changed since origin/main (target remote branches only) -->
-          <ratchetFrom>origin/main</ratchetFrom>
 
           <java>
             <includes>
