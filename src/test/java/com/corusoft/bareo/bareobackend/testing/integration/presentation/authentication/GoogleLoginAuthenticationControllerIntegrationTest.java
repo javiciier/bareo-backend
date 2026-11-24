@@ -15,14 +15,12 @@ import com.corusoft.bareo.bareobackend.presentation.controller.rest.authenticati
 import com.corusoft.bareo.bareobackend.presentation.dto.auth.request.GoogleLoginRequest;
 import com.corusoft.bareo.bareobackend.presentation.dto.auth.response.AuthenticatedUserResponse;
 import com.corusoft.bareo.bareobackend.presentation.dto.user.response.UserSummaryResponse;
-import com.corusoft.bareo.bareobackend.testing.config.annotation.ControllerIntegrationTest;
+import com.corusoft.bareo.bareobackend.testing.config.annotation.WebControllerTest;
 import com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset;
 import com.corusoft.bareo.bareobackend.testing.integration.util.client.TestRestClient;
 import com.corusoft.bareo.bareobackend.testing.integration.util.client.TestRestClientBuilder;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -37,8 +35,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ControllerIntegrationTest(controllers = {GoogleLoginAuthenticationController.class})
-@TestInstance(Lifecycle.PER_CLASS)
+@WebControllerTest(controllers = {GoogleLoginAuthenticationController.class})
 public class GoogleLoginAuthenticationControllerIntegrationTest {
   private static final String ENDPOINT = "/v1/auth/google";
   private final User testUser = TestUserDataset.getTestUser();

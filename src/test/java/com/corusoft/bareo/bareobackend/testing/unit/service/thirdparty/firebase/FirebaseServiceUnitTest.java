@@ -31,8 +31,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import static com.corusoft.bareo.bareobackend.application.usecase.authentication.GoogleLoginUseCase.DEFAULT_NEW_USER_CLAIMS;
 import static com.corusoft.bareo.bareobackend.infrastructure.config.security.TokenClaim.ROLE_CLAIM;
@@ -46,7 +44,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 @UnitTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class FirebaseServiceUnitTest {
   private final User testUser = TestUserDataset.getTestUser();
   UserId testUserId = testUser.getId();

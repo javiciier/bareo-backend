@@ -19,8 +19,6 @@ import com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mock;
 
 import static com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset.RAW_DEFAULT_USER_ID;
@@ -36,7 +34,6 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 @UnitTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class UserServiceUnitTest {
   private final User testUser = TestUserDataset.getTestUser();
 

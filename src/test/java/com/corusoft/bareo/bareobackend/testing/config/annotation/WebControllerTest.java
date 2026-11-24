@@ -25,15 +25,14 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.test.context.ActiveProfiles;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@ActiveProfiles(profiles = {"test"})
+@BaseTestConfig
 @WebMvcTest
 @AutoConfigureMockMvc
 @Import({ControllerTestConfiguration.class, MessageTranslator.class})
-public @interface ControllerIntegrationTest {
+public @interface WebControllerTest {
 
   @AliasFor(annotation = WebMvcTest.class, attribute = "controllers")
   Class<?>[] controllers() default {};

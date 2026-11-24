@@ -18,9 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 public class ControllerTestConfiguration {
 
   @Bean
-  @Scope(
-      ConfigurableBeanFactory
-          .SCOPE_PROTOTYPE) // Returns an independent instance each time it is called
+  @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) // Create new instance each time it is called
   public TestRestClientBuilder testRestClientBuilder(WebApplicationContext webApplicationContext) {
     return new TestRestClientBuilder(webApplicationContext);
   }

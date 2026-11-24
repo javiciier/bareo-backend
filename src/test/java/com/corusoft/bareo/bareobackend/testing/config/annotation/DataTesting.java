@@ -15,13 +15,12 @@ import com.corusoft.bareo.bareobackend.testing.config.TestContainersConfiguratio
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@ActiveProfiles(profiles = {"test"})
-@SpringBootTest()
+@BaseTestConfig
+@SpringBootTest
 @Transactional
 @Import({TestContainersConfiguration.class})
-public @interface UseCaseIntegrationTest {}
+public @interface DataTesting {}

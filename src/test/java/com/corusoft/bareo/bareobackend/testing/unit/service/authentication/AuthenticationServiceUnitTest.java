@@ -27,8 +27,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mock;
 
 import static com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset.RAW_JWT_TOKEN;
@@ -41,7 +39,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @UnitTest
-@TestInstance(Lifecycle.PER_CLASS)
 public class AuthenticationServiceUnitTest {
   private final User testUser = TestUserDataset.getTestUser();
 

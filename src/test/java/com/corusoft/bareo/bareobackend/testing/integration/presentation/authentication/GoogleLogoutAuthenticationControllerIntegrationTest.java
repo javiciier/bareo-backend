@@ -11,14 +11,12 @@ import com.corusoft.bareo.bareobackend.application.usecase.authentication.comman
 import com.corusoft.bareo.bareobackend.domain.entity.user.User;
 import com.corusoft.bareo.bareobackend.presentation.api.ApiResponse;
 import com.corusoft.bareo.bareobackend.presentation.controller.rest.authentication.google.GoogleLogoutAuthenticationController;
-import com.corusoft.bareo.bareobackend.testing.config.annotation.ControllerIntegrationTest;
+import com.corusoft.bareo.bareobackend.testing.config.annotation.WebControllerTest;
 import com.corusoft.bareo.bareobackend.testing.dataset.TestUserDataset;
 import com.corusoft.bareo.bareobackend.testing.integration.util.client.TestRestClient;
 import com.corusoft.bareo.bareobackend.testing.integration.util.client.TestRestClientBuilder;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -32,8 +30,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
-@ControllerIntegrationTest(controllers = {GoogleLogoutAuthenticationController.class})
-@TestInstance(Lifecycle.PER_CLASS)
+@WebControllerTest(controllers = {GoogleLogoutAuthenticationController.class})
 public class GoogleLogoutAuthenticationControllerIntegrationTest {
   private static final String ENDPOINT = "/v1/auth/google/logout";
   private final User testUser = TestUserDataset.getTestUser();
